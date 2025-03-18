@@ -58,7 +58,7 @@ export default function Header() {
           >
             <Link href="/" className="flex items-center">
               <img
-                src={theme == "light" ? "/logo-light.png" : "/logo-dark.png"}
+                src={theme == "light" ? "/logo.png" : "/logo.png"}
                 alt="logo"
                 className="w-[100px] h-[100px]"
               />
