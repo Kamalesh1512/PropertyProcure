@@ -27,7 +27,7 @@ export const properties = pgTable("properties", {
   bathrooms: integer("bathrooms"),
   areaSqFt: varchar("area_sq_ft"),
   propertyType: varchar("property_type", { length: 100 }).notNull(), // e.g., "Apartment", "House", "Commercial"
-  isAvailable: boolean("is_available").default(true),
+  isDeleted: boolean("is_deleted").default(true),
   brokerId: varchar('brokerId').notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),

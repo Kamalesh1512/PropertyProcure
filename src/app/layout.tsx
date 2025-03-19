@@ -16,7 +16,16 @@ import {
 export const metadata: Metadata = {
   title: "PropertyProcure",
   description: "Where lands meet opportunity",
-  icons: "/logo-dark.png"
+  icons: {
+   icon: [
+      {
+        url: "/logo.png",
+        type: "image/png",
+        sizes: "128x128",
+      },
+    ]
+  }
+  
 };
 const outfit = Outfit({ subsets: ["latin"] });
 

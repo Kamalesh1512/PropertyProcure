@@ -1,41 +1,41 @@
 import { db } from "@/db/index";
 import { and, desc, eq, inArray } from "drizzle-orm";
+import { properties } from "./schema";
 
 //query to get user by ID
-export async function getProjects(
-  userId: string,
+export async function getProperties(
   isDeleted: boolean,
-  recents: number
 ) {
-  if (!userId) {
-    throw new Error("Invalid userId: userId is required");
-  }
-
+  
   try {
-    if (recents === 0) {
-      //get all projects
+      //get all properties
       const projects = await db
         .select()
-        .from(Project)
-        .where(
-          and(eq(Project.userId, userId), eq(Project.isDeleted, isDeleted))
-        )
-        .orderBy(desc(Project.updatedAt));
+        .from(properties)
+        .where(eq(properties.isDeleted, isDeleted))
+        .orderBy(desc(properties.updatedAt));
 
       return projects;
-    }
-    //get recent limited number of projects
-    const projects = await db
-      .select()
-      .from(Project)
-      .where(and(eq(Project.userId, userId), eq(Project.isDeleted, isDeleted)))
-      .orderBy(desc(Project.updatedAt))
-      .limit(recents);
-
-    return projects;
   } catch (error) {
     console.error("Database query error [PROJECT_TABLE]:", error);
     throw new Error("Failed to fetch projects");
   }
 }
 
+// query to update the project
+export async function updateProperty(
+  propertyId: number,
+  updates: Record<string, string | number | boolean | JSON>
+) {
+  try {
+    const property = await db
+      .update(properties)
+      .set(updates)
+      .where(eq(properties.id, propertyId));
+
+    return property;
+  } catch (error) {
+    console.error("Database query error [PROJECT_TABLE]:", error);
+    throw new Error("Failed to Update project Table");
+  }
+}

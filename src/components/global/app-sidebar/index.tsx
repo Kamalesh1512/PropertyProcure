@@ -8,7 +8,7 @@ import {
   SidebarHeader,
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
-import RecentOpen from "@/components/global/app-sidebar/recent-open";
+// import RecentOpen from "@/components/global/app-sidebar/recent-open";
 import NavFooter from "@/components/global/app-sidebar/nav-footer";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import NavMain from "@/components/global/app-sidebar/nav-main";
@@ -21,7 +21,7 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
   return (
     <Sidebar
       collapsible="icon"
-      className="max-w-[212px] bg-primary-foreground"
+      className="max-w-fit bg-primary-foreground"
       {...props}
     >
       <SidebarHeader className="pt-5 px-2 pb-0">

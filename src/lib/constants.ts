@@ -19,14 +19,14 @@ export const data = {
   navMain: [
     {
       title: "Home",
-      url: "/dashboard",
+      url: "/AdminDashboard",
       icon: Home,
     },
-    {
-      title: "Templates",
-      url: "/templates",
-      icon: LayoutTemplate,
-    },
+    // {
+    //   title: "Templates",
+    //   url: "/templates",
+    //   icon: LayoutTemplate,
+    // },
     {
       title: "Trash",
       url: "/trash",

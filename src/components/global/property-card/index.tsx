@@ -1,49 +1,44 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { itemVariants, themes } from "@/lib/constants";
-import { useSlideStore } from "@/store/useSlideStore";
+import { itemVariants } from "@/lib/constants";
+// import { useSlideStore } from "@/store/useSlideStore";
 import { useRouter } from "next/navigation";
-import ThumbnailPreview from "./thumbnail-preview";
+// import ThumbnailPreview from "./thumbnail-preview";
 import { timeAgo } from "@/lib/utils";
 import AlertDialogBox from "../alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { deleteProject, recoverProject } from "@/actions/project";
-interface ProjectCardProps {
-  projectId: string;
+import { deleteProject, recoverProperty } from "@/actions/properties";
+// import { deleteProject, recoverProject } from "@/actions/properties";
+interface PropertyCardProps {
+  propertyId: number;
   title: string;
   createdAt: Date | null;
   isDelete: boolean | null;
-  slideData: JSON;
-  themeName: string | null;
+  // PropertyType: string;
 }
 
-const ProjectCard = ({
-  projectId,
+const PropertyCard = ({
+  propertyId,
   title,
   createdAt,
   isDelete,
-  slideData,
-  themeName,
-}: ProjectCardProps) => {
+  // PropertyType
+}: PropertyCardProps) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const { setSlides } = useSlideStore();
   const router = useRouter();
   const { toast } = useToast();
 
   const handleNavigation = () => {
-    setSlides(JSON.parse(JSON.stringify(slideData)));
-    router.push(`/presentation/${projectId}`);
+    router.push(`/property/${propertyId}`);
   };
-
-  const theme = themes.find((theme) => theme.name === themeName) || themes[0];
 
   const handleRecover = async () => {
     setLoading(true);
-    if (!projectId) {
+    if (!propertyId) {
       setLoading(false);
       toast({
         variant: "destructive",
@@ -51,7 +46,7 @@ const ProjectCard = ({
       });
     }
     try {
-      const response = await recoverProject(projectId);
+      const response = await recoverProperty(propertyId);
       if (response.status !== 200) {
         toast({
             variant: "destructive",
@@ -75,7 +70,7 @@ const ProjectCard = ({
 
   const handleDelete = async () =>{
     setLoading(true);
-    if (!projectId) {
+    if (!propertyId) {
       setLoading(false);
       toast({
         variant: "destructive",
@@ -83,7 +78,7 @@ const ProjectCard = ({
       });
     }
     try {
-      const response = await deleteProject(projectId);
+      const response = await deleteProject(propertyId);
       if (response.status !== 200) {
         toast({
             variant: "destructive",
@@ -118,10 +113,10 @@ const ProjectCard = ({
           className="relative aspect-[16/10] overflow-hidden rounded-lg cursor-pointer"
           onClick={handleNavigation}
         >
-          <ThumbnailPreview
+          {/* <ThumbnailPreview
             theme={theme}
-            slide={JSON.parse(JSON.stringify(slideData))?.[0]}
-          />
+            slide={JSON.parse(JSON.stringify(0))?.[0]}
+          /> */}
         </div>
         <div className="w-full">
           <div className="space-y-1">
@@ -180,4 +175,4 @@ const ProjectCard = ({
   );
 };
 
-export default ProjectCard;
+export default PropertyCard;

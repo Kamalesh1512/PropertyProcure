@@ -1,69 +1,69 @@
-'use client'
-import { Button } from "@/components/ui/button";
-import {
-  SidebarGroup,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar";
-import { Project } from "@/db/schema";
-import { useToast } from "@/hooks/use-toast";
-import { useSlideStore } from "@/store/useSlideStore";
-import { InferSelectModel } from "drizzle-orm";
-import { useRouter } from "next/navigation";
-import React from "react";
+// 'use client'
+// import { Button } from "@/components/ui/button";
+// import {
+//   SidebarGroup,
+//   SidebarGroupLabel,
+//   SidebarMenu,
+//   SidebarMenuButton,
+//   SidebarMenuItem,
+// } from "@/components/ui/sidebar";
+// import { properties } from "@/db/schema";
 
-type ProjectType = InferSelectModel<typeof Project>;
+// import { useToast } from "@/hooks/use-toast";
+// import { InferSelectModel } from "drizzle-orm";
+// import { useRouter } from "next/navigation";
+// import React from "react";
 
-interface RecentOpenProps {
-  recentProjects: ProjectType[];
-}
+// type ProjectType = InferSelectModel<typeof properties>;
 
-const RecentOpen = ({ recentProjects }: RecentOpenProps) => {
-  const { toast } = useToast();
-  const router = useRouter();
-  const { setSlides } = useSlideStore();
-  const handleClick = (projectId: string, slides: any) => {
-    if (!projectId || !slides) {
-      toast({
-        description: "Projects Not Found",
-        variant: "destructive",
-      });
-      return;
-    }
-    setSlides(JSON.parse(JSON.stringify(slides)));
-  };
-  return recentProjects.length > 0 ? (
-    <SidebarGroup>
-      <SidebarGroupLabel>Recently Opened</SidebarGroupLabel>
-      <SidebarMenu>
-        {recentProjects.length > 0 ? (
-          recentProjects.map((item) => (
-            <SidebarMenuItem key={item.id}>
-              <SidebarMenuButton
-                asChild
-                tooltip={item.title}
-                className={`hove:bg-primary-80`}
-              >
-                <Button
-                  variant={"link"}
-                  onClick={() => handleClick(item.id, item.slides)}
-                  className={`text-xs items-center justify-start`}
-                >
-                  <span>{item.title}</span>
-                </Button>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))
-        ) : (
-          <></>
-        )}
-      </SidebarMenu>
-    </SidebarGroup>
-  ) : (
-    <></>
-  );
-};
+// interface RecentOpenProps {
+//   recentProjects: ProjectType[];
+// }
 
-export default RecentOpen;
+// const RecentOpen = ({ recentProjects }: RecentOpenProps) => {
+//   const { toast } = useToast();
+//   const router = useRouter();
+//   // const { setSlides } = useSlideStore();
+//   const handleClick = (projectId: string, slides: any) => {
+//     if (!projectId || !slides) {
+//       toast({
+//         description: "Projects Not Found",
+//         variant: "destructive",
+//       });
+//       return;
+//     }
+//     // setSlides(JSON.parse(JSON.stringify(slides)));
+//   };
+//   return recentProjects.length > 0 ? (
+//     <SidebarGroup>
+//       <SidebarGroupLabel>Recently Opened</SidebarGroupLabel>
+//       <SidebarMenu>
+//         {recentProjects.length > 0 ? (
+//           recentProjects.map((item) => (
+//             <SidebarMenuItem key={item.id}>
+//               <SidebarMenuButton
+//                 asChild
+//                 tooltip={item.title}
+//                 className={`hove:bg-primary-80`}
+//               >
+//                 <Button
+//                   variant={"link"}
+//                   onClick={() => handleClick(item.id, item.slides)}
+//                   className={`text-xs items-center justify-start`}
+//                 >
+//                   <span>{item.title}</span>
+//                 </Button>
+//               </SidebarMenuButton>
+//             </SidebarMenuItem>
+//           ))
+//         ) : (
+//           <></>
+//         )}
+//       </SidebarMenu>
+//     </SidebarGroup>
+//   ) : (
+//     <></>
+//   );
+// };
+
+// export default RecentOpen;
