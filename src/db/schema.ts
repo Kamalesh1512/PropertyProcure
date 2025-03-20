@@ -32,3 +32,10 @@ export const properties = pgTable("properties", {
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
+
+export const propertyImages = pgTable("property_images", {
+  id: serial("id").primaryKey(),
+  propertyId: integer("property_id").references(() => properties.id, { onDelete: "cascade" }).notNull(),
+  imageUrl: varchar("image_url", { length: 255 }).notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});

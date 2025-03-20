@@ -19,7 +19,7 @@ export const data = {
   navMain: [
     {
       title: "Home",
-      url: "/AdminDashboard",
+      url: "/admin",
       icon: Home,
     },
     // {
