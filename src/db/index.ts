@@ -4,8 +4,8 @@ import { Pool } from 'pg';
 const pool = new Pool({
   connectionString: process.env.NEXT_DATABASE_URL,
   ssl: {
-    rejectUnauthorized: false,
-    // ca: Buffer.from(process.env.NEXT_AZURE_CA_CERTS!, 'base64').toString('utf-8'),
+    rejectUnauthorized: true,
+    ca: Buffer.from(process.env.NEXT_AZURE_CA_CERTS!, 'base64').toString('utf-8'),
   },
   max: 5,
   idleTimeoutMillis: 10000,

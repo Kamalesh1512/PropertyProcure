@@ -3,7 +3,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Outfit } from "next/font/google";
 import { ThemeProvider } from "@/provider/theme-provider";
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/toaster";
 import {
   ClerkProvider,
   SignInButton,
@@ -12,6 +12,7 @@ import {
   SignedOut,
   UserButton,
 } from '@clerk/nextjs'
+
 
 export const metadata: Metadata = {
   title: "PropertyProcure",
@@ -43,7 +44,7 @@ export default function RootLayout({
       >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           {children}
-          <Toaster />
+        <Toaster/>
         </ThemeProvider>
       </body>
     </html>

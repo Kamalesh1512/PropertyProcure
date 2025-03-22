@@ -1,40 +1,52 @@
 "use server";
 
-import { BlobServiceClient } from "@azure/storage-blob";
+import { 
+  BlobServiceClient, 
+  StorageSharedKeyCredential, 
+  BlobSASPermissions, 
+  generateBlobSASQueryParameters 
+} from "@azure/storage-blob";
 import { v4 as uuidv4 } from "uuid";
-import { onAuthenticateAdmin } from "./admin";
-import { error } from "console";
 
-const AZURE_STORAGE_CONNECTION_STRING =
-  process.env.AZURE_STORAGE_CONNECTION_STRING!;
-const CONTAINER_NAME = "property-images";
-
-export async function uploadImageToAzure(file: File) {
+export async function generateSasUrl(fileName: string, fileType: string) {
   try {
-    const checkUser = await onAuthenticateAdmin();
-    if (checkUser.status !== 200 || !checkUser.user) {
-      return { status: 403, error: "⚠️ User is Not Authenticated as Admin" };
+    // Ensure environment variables exist
+    const accountName = process.env.NEXT_AZURE_STORAGE_ACCOUNT_NAME!;
+    const accountKey = process.env.NEXT_AZURE_STORAGE_ACCOUNT_KEY!;
+    const containerName = process.env.NEXT_AZURE_STORAGE_CONTAINER_NAME!;
+
+    if (!fileName || !fileType) {
+      return { status: 400, error: "⚠️ Missing file name or type" };
     }
-    const blobServiceClient = BlobServiceClient.fromConnectionString(
-      AZURE_STORAGE_CONNECTION_STRING
+
+    // Generate a unique file name to avoid conflicts
+    const uniqueFileName = `${uuidv4()}-${fileName}`;
+
+    // Create Blob Service Client
+    const sharedKeyCredential = new StorageSharedKeyCredential(accountName, accountKey);
+    const blobServiceClient = new BlobServiceClient(
+      `https://${accountName}.blob.core.windows.net`,
+      sharedKeyCredential
     );
-    const containerClient =
-      blobServiceClient.getContainerClient(CONTAINER_NAME);
+    const containerClient = blobServiceClient.getContainerClient(containerName);
 
-    const blobName = `${uuidv4()}-${file.name}`;
-    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+    // SAS Token Permissions (Write + Create)
+    const expiresOn = new Date(new Date().valueOf() + 10 * 60 * 1000); // Expires in 10 minutes
+    const sasOptions = {
+      containerName: containerClient.containerName,
+      blobName: uniqueFileName,
+      permissions: BlobSASPermissions.parse("rw"), // read & Write Access
+      expiresOn,
+    };
 
-    await blockBlobClient.uploadData(await file.arrayBuffer(), {
-      blobHTTPHeaders: { blobContentType: file.type },
-    });
+    // Generate SAS Token
+    const sasToken = generateBlobSASQueryParameters(sasOptions, sharedKeyCredential).toString();
+    const sasUrl = `https://${accountName}.blob.core.windows.net/${containerName}/${uniqueFileName}?${sasToken}`;
+    const blobUrl = `https://${accountName}.blob.core.windows.net/${containerName}/${uniqueFileName}`;
 
-    // if (blobServiceClient.url === undefined) {
-    //   return { status: 401, error: "Failed to upload image to Azure" };
-    // }
-
-    return { status: 200, data: blobServiceClient.url};
+    return { status: 200, sasUrl,blobUrl };
   } catch (error) {
-    console.log("⚠️ ERROR ", error);
-    return { status: 500, error: "Internal Server Error" };
+    console.error("⚠️ Error generating SAS URL:", error);
+    return { status: 500, error: "⚠️ Failed to generate SAS URL" };
   }
 }

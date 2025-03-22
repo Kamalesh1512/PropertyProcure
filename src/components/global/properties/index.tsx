@@ -13,22 +13,25 @@ interface ProjectsProps {
 }
 
 const Properties = ({ properties }: ProjectsProps) => {
-  return (<motion.div
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {properties.map((property, id) => (
-          <PropertyCard
-            key={id}
-            propertyId={property?.id}
-            title={property?.title}
-            createdAt={property?.createdAt}
-            isDelete={property?.isDeleted}
-          />
-        ))}
-      </motion.div>)
+  return (
+    <motion.div
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      {properties.map((property, id) => (
+        <PropertyCard
+          key={id}
+          propertyId={property?.id}
+          title={property?.title}
+          createdAt={property?.createdAt}
+          isDelete={property?.isDeleted}
+          image={property?.thumbnail}
+        />
+      ))}
+    </motion.div>
+  );
 };
 
 export default Properties;

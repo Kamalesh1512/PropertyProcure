@@ -10,13 +10,14 @@ import AlertDialogBox from "../alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { deleteProject, recoverProperty } from "@/actions/properties";
+import ThumbnailPreview from "./thumbnail-preview";
 // import { deleteProject, recoverProject } from "@/actions/properties";
 interface PropertyCardProps {
   propertyId: number;
   title: string;
   createdAt: Date | null;
   isDelete: boolean | null;
-  // PropertyType: string;
+  image: string;
 }
 
 const PropertyCard = ({
@@ -24,7 +25,7 @@ const PropertyCard = ({
   title,
   createdAt,
   isDelete,
-  // PropertyType
+  image
 }: PropertyCardProps) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -105,7 +106,7 @@ const PropertyCard = ({
     <div>
       <motion.div
         className={`group w-full flex flex-col gap-y-3 rounded-xl p-3 transition-colors ${
-          !isDelete && "hover:bg-muted/50"
+          !isDelete && "hover:bg-muted-foreground/50 bg-muted/50 "
         }`}
         variants={itemVariants}
       >
@@ -113,10 +114,7 @@ const PropertyCard = ({
           className="relative aspect-[16/10] overflow-hidden rounded-lg cursor-pointer"
           onClick={handleNavigation}
         >
-          {/* <ThumbnailPreview
-            theme={theme}
-            slide={JSON.parse(JSON.stringify(0))?.[0]}
-          /> */}
+          <ThumbnailPreview images ={image}/>
         </div>
         <div className="w-full">
           <div className="space-y-1">

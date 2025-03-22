@@ -27,8 +27,9 @@ export const properties = pgTable("properties", {
   bathrooms: integer("bathrooms"),
   areaSqFt: varchar("area_sq_ft"),
   propertyType: varchar("property_type", { length: 100 }).notNull(), // e.g., "Apartment", "House", "Commercial"
-  isDeleted: boolean("is_deleted").default(true),
+  isDeleted: boolean("is_deleted").default(true).notNull(),
   brokerId: varchar('brokerId').notNull(),
+  thumbnail:varchar("thumbnail", { length: 255 }).notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

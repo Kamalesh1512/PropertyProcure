@@ -1,24 +1,22 @@
 import { db } from "@/db/index";
 import { and, desc, eq, inArray } from "drizzle-orm";
-import { properties } from "./schema";
+import { properties, propertyImages } from "./schema";
+import { PropertyFormData } from "@/app/(protected)/(pages)/(adminPages)/create-property/_components/PropertyForm";
 
 //query to get user by ID
-export async function getProperties(
-  isDeleted: boolean,
-) {
-  
+export async function getProperties(isDeleted: boolean) {
   try {
-      //get all properties
-      const projects = await db
-        .select()
-        .from(properties)
-        .where(eq(properties.isDeleted, isDeleted))
-        .orderBy(desc(properties.updatedAt));
+    //get all properties
+    const projects = await db
+      .select()
+      .from(properties)
+      .where(eq(properties.isDeleted, isDeleted))
+      .orderBy(desc(properties.updatedAt));
 
-      return projects;
+    return projects;
   } catch (error) {
-    console.error("Database query error [PROJECT_TABLE]:", error);
-    throw new Error("Failed to fetch projects");
+    console.error("Database query error [PROPERTY_TABLE]:", error);
+    throw new Error("Failed to fetch properties");
   }
 }
 
@@ -35,7 +33,59 @@ export async function updateProperty(
 
     return property;
   } catch (error) {
-    console.error("Database query error [PROJECT_TABLE]:", error);
-    throw new Error("Failed to Update project Table");
+    console.error("Database query error [PROPERTY_TABLE]:", error);
+    throw new Error("Failed to Update property Table");
+  }
+}
+
+export async function addProperty(data: PropertyFormData, images: string[]) {
+  try {
+    const newProperty = await db
+      .insert(properties)
+      .values({
+        title: data.title,
+        description: data.description,
+        price: data.price,
+        address: data.address,
+        city: data.city,
+        state: data.state,
+        country: data.country,
+        bedrooms: data.bedrooms,
+        bathrooms: data.bathrooms,
+        areaSqFt: data.areaSqFt,
+        propertyType: data.propertyType,
+        isDeleted: false,
+        brokerId: data.brokerId,
+        thumbnail:images[0],
+      })
+      .returning({ id: properties.id });
+
+    // If property was inserted, insert images
+    if (newProperty) {
+      await db.insert(propertyImages).values(
+        images.map((image) => ({
+          propertyId: newProperty[0].id,
+          imageUrl: image,
+        }))
+      );
+    }
+    return newProperty[0]
+  } catch (error) {
+    console.error("Database query error [PROPERTY_TABLE]:", error);
+    throw new Error("Failed to insert to property Table");
+  }
+}
+
+
+export async function deleteAllPropertiesById(propertyIds: number[]) {
+  try {
+    const result = await db
+      .delete(properties)
+      .where(inArray(properties.id, propertyIds))
+      .returning();
+    return result;
+  } catch (error) {
+    console.error("Database query error [PROPERTY_TABLE]:", error);
+    throw new Error("Failed to delete properties");
   }
 }
