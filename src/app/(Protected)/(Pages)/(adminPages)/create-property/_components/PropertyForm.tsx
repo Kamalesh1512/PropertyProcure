@@ -22,7 +22,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import ImageUpload from "./ImageUpload";
 import { useImageStore } from "@/store/imageStore";
 import { useEffect, useState } from "react";
 import {
@@ -41,6 +40,8 @@ import {
 import { createProperty } from "@/actions/properties";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { PropertyFormDataProps } from "@/lib/types";
+import ImageUpload from "./ImageUpload";
 
 const propertySchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),

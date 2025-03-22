@@ -2,7 +2,7 @@
 import { error } from "console";
 import { addProperty, deleteAllPropertiesById, getProperties, updateProperty } from "@/db/queries";
 import { onAuthenticateAdmin } from "./admin";
-import { PropertyFormData } from "@/app/(protected)/(pages)/(adminPages)/create-property/_components/PropertyForm";
+import { PropertyFormData } from "@/app/(Protected)/(Pages)/(adminPages)/create-property/_components/PropertyForm";
 
 export const getAllProperties= async () => {
   try {

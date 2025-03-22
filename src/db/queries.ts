@@ -1,7 +1,8 @@
 import { db } from "@/db/index";
 import { and, desc, eq, inArray } from "drizzle-orm";
 import { properties, propertyImages } from "./schema";
-import { PropertyFormData } from "@/app/(protected)/(pages)/(adminPages)/create-property/_components/PropertyForm";
+import { PropertyFormDataProps } from "@/lib/types";
+import { PropertyFormData } from "@/app/(Protected)/(Pages)/(adminPages)/create-property/_components/PropertyForm";
 
 //query to get user by ID
 export async function getProperties(isDeleted: boolean) {
