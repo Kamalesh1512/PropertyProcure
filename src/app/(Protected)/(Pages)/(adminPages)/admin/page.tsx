@@ -4,7 +4,7 @@ import Properties from "@/components/global/properties";
 import CreateButton from "@/components/global/upper-info-bar/create-new";
 import { checkRole } from "@/utils/roles";
 import { redirect } from "next/navigation";
-import React from "react";
+import React, { Suspense } from "react";
 
 interface AdminDashboardPageProps{
   searchParams:Promise<{
@@ -36,6 +36,7 @@ const AdminDashboardPage = async ({searchParams}:AdminDashboardPageProps) => {
     redirect("/")
   }
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <div className="w-full flex flex-col gap-6 relative p-4">
       <div className="flex justify-between items-start w-full gap-6 sm:flex-row sm:justify-between sm:items-center">
         <div className="flex flex-col items-start">
@@ -58,6 +59,7 @@ const AdminDashboardPage = async ({searchParams}:AdminDashboardPageProps) => {
         </>
       ) }
     </div>
+    </Suspense>
   );
 };
 

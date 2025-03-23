@@ -2,7 +2,7 @@ import { getAllProperties } from "@/actions/properties";
 import NotFound from "@/components/global/not-found";
 import Properties from "@/components/global/properties";
 import { checkRole } from "@/utils/roles";
-import React from "react";
+import React, { Suspense } from "react";
 
 interface DashbaordPageProps {
   searchParams: Promise<{
@@ -28,6 +28,7 @@ const DashboardPage = async ({ searchParams }: DashbaordPageProps) => {
   const allProperties = await getAllProperties(name, city, minPrice,maxPrice,propertyType);
   const isAdmin = false;
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <div className="w-full flex flex-col gap-6 relative p-4">
       <div className="flex flex-col-reverse items-start w-full gap-6 sm:flex-row sm:justify-between sm:items-center">
         <div className="flex flex-col items-start">
@@ -48,6 +49,7 @@ const DashboardPage = async ({ searchParams }: DashbaordPageProps) => {
         </>
       )}
     </div>
+    </Suspense>
   );
 };
 
