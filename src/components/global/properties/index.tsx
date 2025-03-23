@@ -10,9 +10,12 @@ type PropertyType = InferSelectModel<typeof properties>;
 
 interface ProjectsProps {
   properties: PropertyType[];
+  isAdmin:Promise<boolean> | boolean,
 }
 
-const Properties = ({ properties }: ProjectsProps) => {
+const Properties = ({ properties,isAdmin }: ProjectsProps) => {
+
+  
   return (
     <motion.div
       className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
@@ -24,10 +27,12 @@ const Properties = ({ properties }: ProjectsProps) => {
         <PropertyCard
           key={id}
           propertyId={property?.id}
+          price={property.price}
           title={property?.title}
           createdAt={property?.createdAt}
           isDelete={property?.isDeleted}
           image={property?.thumbnail}
+          isAdmin = {isAdmin}
         />
       ))}
     </motion.div>

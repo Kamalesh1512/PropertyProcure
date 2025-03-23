@@ -14,12 +14,13 @@ const AdminDashboardLayout = async ({ children }: { children: React.ReactNode })
 
   return(
   <SidebarProvider>
-    <AppSidebar/>
+    <AppSidebar isAdmin = {isAdmin}/>
     <SidebarInset>
       <UpperInfoBar/>
       <div className="p-4">{children}</div>
     </SidebarInset>
-  </SidebarProvider>)
+  </SidebarProvider>
+  )
 };
 
 export default AdminDashboardLayout;

@@ -2,30 +2,32 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { itemVariants } from "@/lib/constants";
-// import { useSlideStore } from "@/store/useSlideStore";
 import { useRouter } from "next/navigation";
-// import ThumbnailPreview from "./thumbnail-preview";
 import { timeAgo } from "@/lib/utils";
 import AlertDialogBox from "../alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { deleteProject, recoverProperty } from "@/actions/properties";
 import ThumbnailPreview from "./thumbnail-preview";
-// import { deleteProject, recoverProject } from "@/actions/properties";
+
 interface PropertyCardProps {
   propertyId: number;
-  title: string;
+  price:number,
+  title: string,
   createdAt: Date | null;
   isDelete: boolean | null;
   image: string;
+  isAdmin:Promise<boolean> | boolean,
 }
 
 const PropertyCard = ({
   propertyId,
   title,
+  price,
   createdAt,
   isDelete,
-  image
+  image,
+  isAdmin
 }: PropertyCardProps) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -34,7 +36,13 @@ const PropertyCard = ({
   const { toast } = useToast();
 
   const handleNavigation = () => {
-    router.push(`/property/${propertyId}`);
+    if (isAdmin) {
+      router.push(`admin/property/${propertyId}`);
+    }
+    else{
+      router.push(`/property/${propertyId}`);
+    }
+    
   };
 
   const handleRecover = async () => {
@@ -121,6 +129,7 @@ const PropertyCard = ({
             <h3 className="font-semibold text-base text-primary line-clamp-1">
               {title}
             </h3>
+            <h4 className="font-semibold text-base text-muted-foreground line-clamp-1">Price: ₹ {price}</h4>
             <div className="flex w-full justify-between items-center gap-2">
               <p
                 className="text-sm text-muted-foreground"
@@ -128,7 +137,8 @@ const PropertyCard = ({
               >
                 {createdAt && timeAgo(createdAt)}
               </p>
-              {isDelete ? (
+              {isAdmin ?(<React.Fragment>
+                {isDelete ? (
                 <AlertDialogBox
                   description="This will recover your projects and restore your data."
                   className="bg-green-500 text-white dark:bg-green-600 hover:bg-green-600 dark:hover:bg-green-700"
@@ -165,6 +175,12 @@ const PropertyCard = ({
                 </Button>
               </AlertDialogBox>
               )}
+
+              </React.Fragment>):(
+                <>
+                </>
+              )
+              }
             </div>
           </div>
         </div>

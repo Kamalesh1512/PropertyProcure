@@ -2,6 +2,7 @@ import {
   BookTemplate,
   Home,
   LayoutTemplate,
+  Phone,
   Settings,
   Settings2,
   Trash2,
@@ -12,7 +13,7 @@ import {
 export const data = {
   user: {
     name: "shandcn",
-    email: "me@hamil.com",
+    email: "me@gmaill.com",
     avatar: "/avatar/shadcn.jpg",
   },
 
@@ -39,6 +40,32 @@ export const data = {
     },
   ],
 };
+
+export const publicData = {
+    user: {
+      name: "shandcn",
+      email: "me@gmaill.com",
+      avatar: "/avatar/shadcn.jpg",
+    },
+  
+    navMain: [
+      {
+        title: "Home",
+        url: "/",
+        icon: Home,
+      },
+      // {
+      //   title: "Templates",
+      //   url: "/templates",
+      //   icon: LayoutTemplate,
+      // },
+      {
+        title: "Contact us",
+        url: "/contact",
+        icon: Phone,
+      },
+    ],
+  };
 
 // animation used
 export const containerVariants = {

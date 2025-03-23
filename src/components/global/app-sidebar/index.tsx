@@ -8,16 +8,18 @@ import {
   SidebarHeader,
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
-// import RecentOpen from "@/components/global/app-sidebar/recent-open";
 import NavFooter from "@/components/global/app-sidebar/nav-footer";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import NavMain from "@/components/global/app-sidebar/nav-main";
-import { data } from "@/lib/constants";
+import { data, publicData } from "@/lib/constants";
 import { InferSelectModel } from "drizzle-orm";
-import { LayoutDashboard, LayoutDashboardIcon } from "lucide-react";
 import Image from "next/image";
 
-const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  isAdmin?: Promise<boolean> | boolean;
+}
+
+const AppSidebar = ({isAdmin, ...props }: AppSidebarProps) => {
   return (
     <Sidebar
       collapsible="icon"
@@ -27,25 +29,28 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
       <SidebarHeader className="pt-5 px-2 pb-0">
         <SidebarMenuButton
           size={"lg"}
-          className="data-[state=open]:text-sidebar-accent-foreground"
+          className="data-[state=open]:text-sidebar-accent-foreground gap-5"
         >
-          <div className="flex flex-row justify-between items-center">
+          {/* <div className="flex flex-row justify-between items-center"> */}
+          <div className="flex aspect-square size-16 items-center justify-center rounded-lg text-sidebar-primary-foreground">
             <Image src={"/logo.png"} alt="logo" width={"75"} height={"150"} />
+            </div>
             <span className=" flex flex-col items-center text-sm font-bold">
             <span>
               Property <span className="text-premium text">Procure</span>
             </span>
 
             <span className="text-xs text-muted-foreground text-wrap">
-              procure your dream land with trust
+              procure your dream property with trust
             </span>
           </span>
-          </div>
+          {/* </div> */}
 
         </SidebarMenuButton>
       </SidebarHeader>
       <SidebarContent className="px-2 mt-10 gap-y-6">
-        <NavMain items={data.navMain} />
+        {isAdmin ? (<NavMain items={data.navMain} />): (<NavMain items={publicData.navMain } />)}
+        
       </SidebarContent>
       <SidebarFooter>
         <NavFooter />

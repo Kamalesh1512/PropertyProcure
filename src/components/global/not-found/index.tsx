@@ -9,7 +9,7 @@ const NotFound = () => {
             </p>
             
             <p className='text-base font-normal'>
-                Admin please add <span className='text-premium'>properties</span>
+                <span className='text-premium'>properties</span> are comming soon!!
             </p>
         </div>
         

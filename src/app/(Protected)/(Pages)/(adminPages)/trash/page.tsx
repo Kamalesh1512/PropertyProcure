@@ -1,12 +1,19 @@
 import React from "react";
-import DeleteAllButton from "./_component/DeleteAllButton";
 
 import NotFound from "@/components/global/not-found";
 import Properties from "@/components/global/properties";
 import { getDeletedProperties } from "@/actions/properties";
+import DeleteAllButton from "./_component/DeleteAllButton";
+import { checkRole } from "@/utils/roles";
+import { redirect } from "next/navigation";
 
 
 const page = async () => {
+
+  const isAdmin = checkRole('admin')
+  if (!isAdmin) {
+    redirect('/')
+  }
   const deletedProperties = await getDeletedProperties();
 
   if (!deletedProperties.data) {
@@ -27,7 +34,7 @@ const page = async () => {
         <DeleteAllButton properties={deletedProperties.data} />
       </div>
       {deletedProperties.data.length > 0 ? (
-        <Properties properties={deletedProperties.data} />
+        <Properties properties={deletedProperties.data} isAdmin={isAdmin} />
       ) : (
         <NotFound />
       )}

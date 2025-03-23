@@ -1,12 +1,31 @@
 "use server";
 import { error } from "console";
-import { addProperty, deleteAllPropertiesById, getProperties, updateProperty } from "@/db/queries";
+import {
+  addProperty,
+  deleteAllPropertiesById,
+  getProperties,
+  getPropertiesDeleted,
+  updateProperty,
+} from "@/db/queries";
 import { onAuthenticateAdmin } from "./admin";
 import { PropertyFormData } from "@/app/(Protected)/(Pages)/(adminPages)/create-property/_components/PropertyForm";
 
-export const getAllProperties= async () => {
+export const getAllProperties = async (
+  name: string,
+  city: string,
+  minPrice:number,
+  maxPrice:number,
+  propertyType: string
+) => {
   try {
-    const properties = await getProperties(false);
+    const properties = await getProperties(
+      name,
+      city,
+      minPrice,
+      maxPrice,
+      propertyType,
+      false
+    );
 
     if (properties.length === 0) {
       return { status: 404, error: "No Properties Found" };
@@ -58,25 +77,27 @@ export const deleteProject = async (propertyId: number) => {
   }
 };
 
-export const createProperty = async (data:PropertyFormData,images:string[]) => {
+export const createProperty = async (
+  data: PropertyFormData,
+  images: string[]
+) => {
   try {
     const checkUser = await onAuthenticateAdmin();
     if (checkUser.status !== 200 || !checkUser.user) {
       return { status: 403, error: "⚠️ User Not Authenticated" };
     }
-    const updatedProperty = await addProperty(data,images);
+    const updatedProperty = await addProperty(data, images);
 
     if (!updatedProperty) {
       return { status: 500, error: "Failed to create property" };
     }
-    console.log("inside create property action")
-    return { status: 200, data: updatedProperty};
+    console.log("inside create property action");
+    return { status: 200, data: updatedProperty };
   } catch (error) {
     console.log("⚠️ ERROR ", error);
     return { status: 500, error: "Internal Server Error" };
   }
 };
-
 
 export const deleteAllProperties = async (projectIds: number[]) => {
   try {
@@ -105,7 +126,7 @@ export const getDeletedProperties = async () => {
       return { status: 403, error: "⚠️ User Not Authenticated" };
     }
     //get deleted projects
-    const properties = await getProperties(true);
+    const properties = await getPropertiesDeleted(true);
 
     if (!properties) {
       return { status: 400, message: "No deleted projects found", data: [] };

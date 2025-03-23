@@ -1,17 +1,40 @@
 import { db } from "@/db/index";
-import { and, desc, eq, inArray } from "drizzle-orm";
+import { and, desc, eq, gte, ilike, inArray, lte, or } from "drizzle-orm";
 import { properties, propertyImages } from "./schema";
 import { PropertyFormDataProps } from "@/lib/types";
 import { PropertyFormData } from "@/app/(Protected)/(Pages)/(adminPages)/create-property/_components/PropertyForm";
 
 //query to get user by ID
-export async function getProperties(isDeleted: boolean) {
+export async function getProperties(
+  name: string,
+  city: string,
+  minPrice: number,
+  maxPrice:number,
+  propertyType: string,
+  isDeleted: boolean
+) {
   try {
-    //get all properties
     const projects = await db
       .select()
       .from(properties)
-      .where(eq(properties.isDeleted, isDeleted))
+      .where(
+        and(
+          eq(properties.isDeleted, isDeleted),
+          and(
+            name ? ilike(properties.title, `%${name}%`) : undefined,
+            city ? ilike(properties.city, `%${city}%`) : undefined,
+            propertyType
+              ? ilike(properties.propertyType, `%${propertyType}%`)
+              : undefined,
+              minPrice && maxPrice
+              ? and(
+                  gte(properties.price, minPrice), 
+                  lte(properties.price, maxPrice),
+                )
+              : undefined
+          )
+          )
+      )
       .orderBy(desc(properties.updatedAt));
 
     return projects;
@@ -57,7 +80,7 @@ export async function addProperty(data: PropertyFormData, images: string[]) {
         propertyType: data.propertyType,
         isDeleted: false,
         brokerId: data.brokerId,
-        thumbnail:images[0],
+        thumbnail: images[0],
       })
       .returning({ id: properties.id });
 
@@ -70,13 +93,12 @@ export async function addProperty(data: PropertyFormData, images: string[]) {
         }))
       );
     }
-    return newProperty[0]
+    return newProperty[0];
   } catch (error) {
     console.error("Database query error [PROPERTY_TABLE]:", error);
     throw new Error("Failed to insert to property Table");
   }
 }
-
 
 export async function deleteAllPropertiesById(propertyIds: number[]) {
   try {
@@ -84,6 +106,22 @@ export async function deleteAllPropertiesById(propertyIds: number[]) {
       .delete(properties)
       .where(inArray(properties.id, propertyIds))
       .returning();
+    return result;
+  } catch (error) {
+    console.error("Database query error [PROPERTY_TABLE]:", error);
+    throw new Error("Failed to delete properties");
+  }
+}
+
+
+
+export async function getPropertiesDeleted(isDeleted:boolean) {
+  try {
+    const result = await db
+      .select()
+      .from(properties)
+      .where(eq(properties.isDeleted, isDeleted))
+      .orderBy(desc(properties.updatedAt))
     return result;
   } catch (error) {
     console.error("Database query error [PROPERTY_TABLE]:", error);
