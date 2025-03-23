@@ -17,7 +17,7 @@ interface AdminDashboardPageProps{
 
 const AdminDashboardPage = async ({searchParams}:AdminDashboardPageProps) => {
 
-  const {name,city,price,propertyType} =await searchParams
+  const {name,city,price,propertyType} = await searchParams || {}
 
   let minPrice, maxPrice
   if (!price) {
