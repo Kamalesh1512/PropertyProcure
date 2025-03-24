@@ -2,7 +2,7 @@ import { db } from "@/db/index";
 import { and, desc, eq, gte, ilike, inArray, lte, or } from "drizzle-orm";
 import { properties, propertyImages } from "./schema";
 import { PropertyFormDataProps } from "@/lib/types";
-import { PropertyFormData } from "@/app/(Protected)/(Pages)/(adminPages)/create-property/_components/PropertyForm";
+import { PropertyFormData } from "@/app/(Protected)/(Pages)/(formPages)/create-property/_components/PropertyForm";
 
 //query to get user by ID
 export async function getProperties(
@@ -122,6 +122,38 @@ export async function getPropertiesDeleted(isDeleted:boolean) {
       .from(properties)
       .where(eq(properties.isDeleted, isDeleted))
       .orderBy(desc(properties.updatedAt))
+    return result;
+  } catch (error) {
+    console.error("Database query error [PROPERTY_TABLE]:", error);
+    throw new Error("Failed to delete properties");
+  }
+}
+
+///query to get property by id
+export async function getProperty(propertyId:number) {
+  try {
+    const result = await db
+      .select()
+      .from(properties)
+      .where(and(eq(properties.id, propertyId), eq(properties.isDeleted,false)))
+
+    return result;
+  } catch (error) {
+    console.error("Database query error [PROPERTY_TABLE]:", error);
+    throw new Error("Failed to delete properties");
+  }
+}
+
+
+
+///query to get property by id
+export async function getImagesById(propertyId:number) {
+  try {
+    const result = await db
+      .select()
+      .from(propertyImages)
+      .where(eq(propertyImages.propertyId, propertyId))
+
     return result;
   } catch (error) {
     console.error("Database query error [PROPERTY_TABLE]:", error);

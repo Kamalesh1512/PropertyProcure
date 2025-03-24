@@ -3,12 +3,14 @@ import { error } from "console";
 import {
   addProperty,
   deleteAllPropertiesById,
+  getImagesById,
   getProperties,
   getPropertiesDeleted,
+  getProperty,
   updateProperty,
 } from "@/db/queries";
 import { onAuthenticateAdmin } from "./admin";
-import { PropertyFormData } from "@/app/(Protected)/(Pages)/(adminPages)/create-property/_components/PropertyForm";
+import { PropertyFormData } from "@/app/(Protected)/(Pages)/(formPages)/create-property/_components/PropertyForm";
 
 export const getAllProperties = async (
   name: string,
@@ -132,6 +134,40 @@ export const getDeletedProperties = async () => {
       return { status: 400, message: "No deleted projects found", data: [] };
     }
     return { status: 200, data: properties };
+  } catch (error) {
+    console.log("⚠️ ERROR ", error);
+    return { status: 500, error: "Internal Server Error" };
+  }
+};
+
+
+
+
+export const getPropertyById = async (propertyId:number) => {
+  try {
+    const property = await getProperty(propertyId);
+
+    if (!property || property.length == 0 ) {
+      return { status: 400, message: "Failed to fetch property", data: [] };
+    }
+    return { status: 200, data: property };
+  } catch (error) {
+    console.log("⚠️ ERROR ", error);
+    return { status: 500, error: "Internal Server Error" };
+  }
+};
+
+
+
+export const getPropertiesImages = async (propertyId:number) => {
+  try {
+    const property = await getImagesById(propertyId);
+
+    if (!property || property.length == 0 ) {
+      return { status: 400, message: "Failed to fetch property", data: [] };
+    }
+    const images = property.map((image)=>(image.imageUrl))
+    return { status: 200, data: images };
   } catch (error) {
     console.log("⚠️ ERROR ", error);
     return { status: 500, error: "Internal Server Error" };
