@@ -35,12 +35,12 @@ const NavMain = ({
             <SidebarMenuButton
               asChild
               tooltip={item.title}
-              className={`${pathname.includes(item.url) && "bg-muted"}`}
+              className={`${pathname == item.url && "bg-muted text-primary font-bold"}`}
             >
               <Link
                 href={item.url}
                 className={`text-lg ${
-                  pathname.includes(item.url) && "font-bold"
+                  pathname.includes(item.url) && ""
                 }`}
               >
                 <item.icon className="'text-lg" />

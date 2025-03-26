@@ -31,11 +31,11 @@ const AppSidebar = ({isAdmin, ...props }: AppSidebarProps) => {
           size={"lg"}
           className="data-[state=open]:text-sidebar-accent-foreground gap-5"
         >
-          {/* <div className="flex flex-row justify-between items-center"> */}
-          <div className="flex aspect-square size-16 items-center justify-center rounded-lg text-sidebar-primary-foreground">
-            <Image src={"/logo.png"} alt="logo" width={"75"} height={"150"} />
+          <div className="flex flex-row justify-between items-center">
+          <div className="flex aspect-square size-24 items-center rounded-lg text-sidebar-primary-foreground">
+            <img src={"/logo.png"} alt="logo" className="w-[75px] h-[100px]" />
             </div>
-            <span className=" flex flex-col items-center text-sm font-bold">
+            <span className="flex flex-col items-start font-bold text-sm">
             <span>
               Property <span className="text-premium text">Procure</span>
             </span>
@@ -44,16 +44,15 @@ const AppSidebar = ({isAdmin, ...props }: AppSidebarProps) => {
               procure your dream property with trust
             </span>
           </span>
-          {/* </div> */}
+          </div>
 
         </SidebarMenuButton>
       </SidebarHeader>
       <SidebarContent className="px-2 mt-10 gap-y-6">
         {isAdmin ? (<NavMain items={data.navMain} />): (<NavMain items={publicData.navMain } />)}
-        
       </SidebarContent>
       <SidebarFooter>
-        <NavFooter />
+        {/* <NavFooter /> */}
       </SidebarFooter>
     </Sidebar>
   );

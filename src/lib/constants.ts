@@ -54,11 +54,11 @@ export const publicData = {
         url: "/",
         icon: Home,
       },
-      // {
-      //   title: "Templates",
-      //   url: "/templates",
-      //   icon: LayoutTemplate,
-      // },
+      {
+        title: "Settings",
+        url: "/user-settings",
+        icon: Settings,
+      },
       {
         title: "Contact us",
         url: "/contact",

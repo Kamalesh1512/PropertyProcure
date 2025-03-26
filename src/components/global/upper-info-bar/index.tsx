@@ -18,7 +18,6 @@ const UpperInfoBar = () => {
           <SearchBar />
         </Suspense>
         <div className="flex flex-wrap gap-4 items-center justify-end">
-          <ThemeSwitcher />
         </div>
       </div>
     </header>

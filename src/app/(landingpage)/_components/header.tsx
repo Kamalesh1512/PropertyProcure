@@ -62,7 +62,7 @@ export default function Header() {
                 alt="logo"
                 className="w-[100px] h-[100px]"
               />
-              <span className=" flex flex-col items-center text-3xl font-bold">
+              <span className=" flex flex-col items-start font-bold text-xl md:text-xl sm:text-lg">
                 <span>
                   {" "}
                   Property <span className="text-premium text">Procure</span>
@@ -116,7 +116,7 @@ export default function Header() {
 
             <motion.div variants={itemVariants}>
               <Link href={"/properties"}>
-                <Button variant={"default"} className="bg-premium-gradient">
+                <Button variant={"default"} className="bg-premium-gradient text-black">
                   Get Started
                 </Button>
               </Link>
@@ -177,7 +177,7 @@ export default function Header() {
                 <Link href={"/properties"}>
                   <Button
                     variant={"default"}
-                    className="w-full bg-premium-gradient"
+                    className="w-full bg-premium-gradient text-black"
                   >
                     See Properties
                   </Button>

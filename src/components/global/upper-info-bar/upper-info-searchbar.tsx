@@ -1,11 +1,16 @@
 "use client";
 import { Search } from "lucide-react";
 import qs from "query-string";
-import React, { ChangeEventHandler, Suspense, useEffect, useState } from "react";
+import React, {
+  ChangeEventHandler,
+  Suspense,
+  useEffect,
+  useState,
+} from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import useDebounce from "@/hooks/use-debounce";
-import { FilterComponent } from "./filter";
+import { FilterPopup } from "./filter";
 
 const SearchBar = () => {
   const router = useRouter();
@@ -53,19 +58,19 @@ const SearchBar = () => {
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-    <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-3 gap-4">
-      <div className="min-w-fit relative flex items-center border rounded-full bg-primary-foreground">
-        <Search className="absolute h-4 w-4 top-3 left-4 text-muted-foreground" />
-        <Input
-          onChange={onChange}
-          value={value}
-          placeholder="Search..."
-          className="flex-grow border-0 pl-10 focus:ring-0 focus:ring-offset-0"
-        />
+      <div className="gap-4">
+        <div className="min-w-full relative flex items-center border rounded-full bg-primary-foreground">
+          <Search className="absolute h-4 w-4 top-3 left-4 text-muted-foreground" />
+          <Input
+            onChange={onChange}
+            value={value}
+            placeholder="Search..."
+            className="flex-grow border-0 pl-10 focus:ring-0 focus:ring-offset-0"
+          />
+        </div>
       </div>
       {/* Filter Component */}
-      <FilterComponent filters={filters} onFilterChange={handleFilterChange} />
-    </div>
+      <FilterPopup filters={filters} onFilterChange={handleFilterChange} />
     </Suspense>
   );
 };

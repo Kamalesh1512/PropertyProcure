@@ -25,13 +25,13 @@ const NavFooter = () => {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <div className="flex flex-col gap-y-6 items-start group-data-[collapsible=icon]:hidden">
+        <div className="flex flex-col gap-y-6 items-start group-data-[collapsible=icon]:hidden mb-10">
           <SignedIn>
             <SidebarMenuButton
               size={"lg"}
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <UserButton />
+              <UserButton/>
               <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
                 <span className="truncate font-semibold">{user?.fullName}</span>
                 <span className="truncate text-muted-foreground">

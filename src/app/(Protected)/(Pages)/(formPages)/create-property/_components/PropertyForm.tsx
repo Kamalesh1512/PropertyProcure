@@ -75,7 +75,7 @@ export default function PropertyForm() {
   const [isLoading, setIsLoading] = useState(false);
 
   const { toast } = useToast();
-  const router = useRouter()
+  const router = useRouter();
 
   const { images } = useImageStore();
   const form = useForm<PropertyFormData>({
@@ -110,7 +110,7 @@ export default function PropertyForm() {
           variant: "default",
           description: "✅ Property created successfully",
         });
-        router.push('/admin')
+        router.push("/admin");
       } else {
         throw new Error("Failed to create property");
       }
@@ -120,8 +120,8 @@ export default function PropertyForm() {
         variant: "default",
         description: "⚠️ Failed to create Property created",
       });
-    }finally{
-        setIsLoading(false)
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -167,8 +167,16 @@ export default function PropertyForm() {
               <FormItem>
                 <FormLabel>Price (₹)</FormLabel>
                 <FormControl>
-                  <Input type="number" placeholder="Enter price" {...field} 
-                  onChange={(e)=>field.onChange(e.target.value ? Number(e.target.value) : 0)}/>
+                  <Input
+                    type="number"
+                    placeholder="Enter price"
+                    {...field}
+                    onChange={(e) =>
+                      field.onChange(
+                        e.target.value ? Number(e.target.value) : 0
+                      )
+                    }
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -288,13 +296,13 @@ export default function PropertyForm() {
                   </FormControl>
                   <SelectContent>
                     <SelectItem value="Apartment">Apartment</SelectItem>
-                    <SelectItem value="House">House</SelectItem>
-                    <SelectItem value="Villa">Villa</SelectItem>
                     <SelectItem value="Argicultural Land">
                       Argicultural Land
                     </SelectItem>
                     <SelectItem value="Dry Land">Dry Land</SelectItem>
+                    <SelectItem value="House">House</SelectItem>
                     <SelectItem value="Plot">Plot</SelectItem>
+                    <SelectItem value="Villa">Villa</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -339,7 +347,7 @@ export default function PropertyForm() {
                 </FormItem>
               )}
             />
-                        <FormField
+            <FormField
               control={form.control}
               name="brokerId"
               render={({ field }) => (
