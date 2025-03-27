@@ -24,7 +24,7 @@ import {
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import PropertyImagesDisplay from "./PropertyImagesDisplay"
+import PropertyImagesDisplay from "@/app/(public)/(pages)/(propertyListingPages)/property/[propertyId]/_components/PropertyImagesDisplay"
 
 type PropertyType = InferSelectModel<typeof properties>
 
@@ -51,7 +51,7 @@ const stagger = {
   },
 }
 
-const PropertyPage = ({ property, imageUrls, whatsappNumber = "918310666162" }: PropertyPageProps) => {
+const AdminPropertyPage = ({ property, imageUrls, whatsappNumber = "918310666162" }: PropertyPageProps) => {
   const { toast } = useToast()
   const router = useRouter()
 
@@ -65,15 +65,10 @@ const PropertyPage = ({ property, imageUrls, whatsappNumber = "918310666162" }: 
 
   const propertyData = property[0]
 
-  // Determine property category
-  const isResidential = ["House", "Villa", "Apartment"].includes(propertyData?.propertyType || "")
-  const isAgricultural = ["Agricultural Land", "Argicultural Land", "Dry Land"].includes(
-    propertyData?.propertyType || "",
-  )
-  const isPlot = propertyData?.propertyType === "Plot"
+  const [brokerName, brokerLoc , brokerContact] = propertyData?.brokerId.split('-')
 
   const handleWhatsAppInquiry = () => {
-    const message = `Hello! I'm interested in the property:"${propertyData?.title} (Code: #${propertyData.id})" Price is ₹${propertyData?.price.toLocaleString()} located in ${propertyData?.city}. Can you please provide more information?`
+    const message = `Hello! I'm interested in the property: "${propertyData?.title}" (₹${propertyData?.price.toLocaleString()}) located in ${propertyData?.city}. Can you provide more information?`
     const encodedMessage = encodeURIComponent(message)
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`
     window.open(whatsappUrl, "_blank")
@@ -142,15 +137,15 @@ const PropertyPage = ({ property, imageUrls, whatsappNumber = "918310666162" }: 
       >
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
-            <h2 className="text-xl font-semibold text-primary mb-2">Interested in this property?</h2>
+            <h2 className="text-xl font-semibold text-primary mb-2">Property is Refered by</h2>
             <p className="text-muted-foreground">
-              Connect directly with our team via WhatsApp for more details or to schedule a visit.
+            {brokerName} from {brokerLoc} the Contact Number is : {brokerContact}
             </p>
           </div>
-          <Button size="lg" className="bg-premium-gradient text-black w-full md:w-auto" onClick={handleWhatsAppInquiry}>
+          {/* <Button size="lg" className="bg-premium-gradient text-black w-full md:w-auto" onClick={handleWhatsAppInquiry}>
             <MessageCircle className="mr-2 h-5 w-5" />
             I'm Interested
-          </Button>
+          </Button> */}
         </div>
       </motion.div>
 
@@ -165,12 +160,12 @@ const PropertyPage = ({ property, imageUrls, whatsappNumber = "918310666162" }: 
         {/* Right Column - Key Details */}
         <motion.div variants={fadeIn} className="bg-muted/30 p-6 rounded-xl">
           <h2 className="text-xl font-semibold mb-4">Property Details</h2>
-          <p className="text-muted-foreground leading-relaxed"> {propertyData?.propertyDetails} </p>
+          <p className="text-muted-foreground leading-relaxed"> {propertyData?.propertyDetails}</p>
         </motion.div>
       </div>
     </motion.div>
   )
 }
 
-export default PropertyPage
+export default AdminPropertyPage
 

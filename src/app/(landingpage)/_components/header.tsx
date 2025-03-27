@@ -117,7 +117,7 @@ export default function Header() {
 
             <motion.div variants={itemVariants}>
               <Link href={"/properties"}>
-                <Button variant={"default"} className="bg-premium-gradient text-white">
+                <Button variant={"default"} className="bg-premium-gradient text-black">
                   Get Started
                 </Button>
               </Link>
@@ -178,7 +178,7 @@ export default function Header() {
                 <Link href={"/properties"}>
                   <Button
                     variant={"default"}
-                    className="w-full bg-premium-gradient text-white"
+                    className="w-full bg-premium-gradient text-black"
                   >
                     See Properties
                   </Button>

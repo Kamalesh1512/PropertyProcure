@@ -69,14 +69,6 @@ export async function updateProperty(
 
 export async function addProperty(data: PropertyFormData, images: string[]) {
   try {
-    const isResidential = ["House", "Villa", "Apartment"].includes(
-      data.propertyType || ""
-    );
-    const isAgricultural = ["Argicultural Land", "Dry Land"].includes(
-      data.propertyType || ""
-    );
-    const isPlot = data.propertyType === "Plot";
-
     const newProperty = await db
       .insert(properties)
       .values({
@@ -92,36 +84,7 @@ export async function addProperty(data: PropertyFormData, images: string[]) {
         isDeleted: false,
         brokerId: data.brokerId,
         thumbnail: images[0],
-        // Residential specific fields
-        bedrooms: data.bedrooms,
-        bathrooms: data.bathrooms,
-        furnishingStatus: data.furnishingStatus,
-        constructionYear: data.constructionYear,
-        totalFloors: data.totalFloors,
-        floorNumber: data.floorNumber,
-        hasLift: data.hasLift,
-        hasPowerBackup: data.hasPowerBackup,
-        hasParking: data.hasParking,
-        hasBalcony: data.hasBalcony,
-        // Agricultural specific fields
-        soilType: data.soilType,
-        irrigationSource: data.irrigationSource,
-        cropSuitability: data.cropSuitability,
-        hasFencing: data.hasFencing,
-        waterQuality: data.waterQuality,
-        waterSource: data.waterSource,
-        cultivationStatus: data.cultivationStatus,
-        // Plot specific fields
-        plotShape: data.plotShape,
-        isCornerPlot: data.isCornerPlot,
-        dimensions: data.dimensions,
-        facing: data.facing,
-        hasBoundary: data.hasBoundary,
-        roadWidth: data.roadWidth,
-        distanceFromHighway: data.distanceFromHighway,
-        hasPublicTransport: data.hasPublicTransport,
-        nearbyLandmarks: data.nearbyLandmarks,
-        approvalStatus: data.approvalStatus,
+        propertyDetails: data.propertyDetails,
       })
       .returning({ id: properties.id });
 

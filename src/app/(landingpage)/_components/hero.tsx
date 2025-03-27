@@ -1,15 +1,15 @@
-"use client"
-import { motion } from "framer-motion"
-import Link from "next/link"
-import Image from "next/image"
-import Header from "./header"
-import { Button } from "@/components/ui/button"
+"use client";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import Image from "next/image";
+import Header from "./header";
+import { Button } from "@/components/ui/button";
 
 export default function Hero() {
   return (
     <section className="w-full py-6 md:py-24 bg-muted rounded-2xl">
       <div className="container px-4 md:px-6">
-        <Header/>
+        <Header />
         <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
           <motion.div
             className="flex flex-col justify-center space-y-4"
@@ -24,7 +24,9 @@ export default function Hero() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2, duration: 0.7 }}
               >
-                Find Your Perfect <span className="text-premium"> Property </span> with RealEstate 
+                Discover your ideal{" "}
+                <span className="text-premium"> Property </span> for
+                a secure future.
               </motion.h1>
               <motion.p
                 className="max-w-[600px] text-muted-foreground md:text-xl"
@@ -32,8 +34,11 @@ export default function Hero() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4, duration: 0.7 }}
               >
-                Discover verified property listings across Bangalore, Mysore, and Hunsur. Connect with us, 
-                and we'll help you find and secure Property - the perfect farmland, residential, or commercial property.
+                Discover verified property listings across Bangalore, Mandya, Mysore and
+                Coorg. Connect with us, we'll help you find and own your dream
+                property and with investment opportunities. Explore the
+                exclusive listing of farmland, residential, or commercial
+                property.
               </motion.p>
             </div>
             <motion.div
@@ -42,11 +47,13 @@ export default function Hero() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.7 }}
             >
-              <Link
-                href="/properties"
-              >
-                <Button variant={"default"} className="bg-premium-gradient text-white font-bold">Browse Properties</Button>
-                
+              <Link href="/properties">
+                <Button
+                  variant={"default"}
+                  className="bg-premium-gradient text-black font-bold"
+                >
+                  Browse Properties
+                </Button>
               </Link>
               {/* <Link
                 href="#contact"
@@ -73,6 +80,5 @@ export default function Hero() {
         </div>
       </div>
     </section>
-  )
+  );
 }
-
