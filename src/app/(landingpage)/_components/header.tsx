@@ -58,7 +58,7 @@ export default function Header() {
           >
             <Link href="/" className="flex items-center">
               <img
-                src={theme == "light" ? "/logo.png" : "/logo.png"}
+                src={theme == "light" ? "/logo-light.png" : "/logo-dark.png"}
                 alt="logo"
                 className="w-[100px] h-[100px]"
               />
@@ -100,10 +100,10 @@ export default function Header() {
             </motion.div>
             <motion.div variants={itemVariants}>
               <Link
-                href="#testimonials"
+                href="/contact"
                 className="text-foreground/80 hover:text-foreground transition-colors"
               >
-                Testimonials
+                Contact us
               </Link>
             </motion.div>
             {/* <motion.div variants={itemVariants}>
@@ -116,7 +116,7 @@ export default function Header() {
 
             <motion.div variants={itemVariants}>
               <Link href={"/properties"}>
-                <Button variant={"default"} className="bg-premium-gradient text-black">
+                <Button variant={"default"} className="bg-premium-gradient text-white">
                   Get Started
                 </Button>
               </Link>
@@ -161,11 +161,11 @@ export default function Header() {
                 How It Works
               </Link>
               <Link
-                href="#testimonials"
+                href="/contact"
                 className="px-4 py-2 text-foreground/80 hover:text-foreground transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Testimonials
+                Contact us
               </Link>
               <div className="flex flex-col gap-2 px-4 pt-2">
                 {/* <Link href={"/sign-in"}>
@@ -177,7 +177,7 @@ export default function Header() {
                 <Link href={"/properties"}>
                   <Button
                     variant={"default"}
-                    className="w-full bg-premium-gradient text-black"
+                    className="w-full bg-premium-gradient text-white"
                   >
                     See Properties
                   </Button>

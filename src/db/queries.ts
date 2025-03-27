@@ -9,7 +9,7 @@ export async function getProperties(
   name: string,
   city: string,
   minPrice: number,
-  maxPrice:number,
+  maxPrice: number | undefined,
   propertyType: string,
   isDeleted: boolean
 ) {
@@ -26,14 +26,19 @@ export async function getProperties(
             propertyType
               ? ilike(properties.propertyType, `%${propertyType}%`)
               : undefined,
-              minPrice && maxPrice
+            minPrice && maxPrice
               ? and(
-                  gte(properties.price, minPrice), 
-                  lte(properties.price, maxPrice),
+                  gte(properties.price, minPrice),
+                  lte(properties.price, maxPrice)
+                )
+              : minPrice
+              ? or(
+                  gte(properties.price, minPrice),
+                  eq(properties.price, minPrice)
                 )
               : undefined
           )
-          )
+        )
       )
       .orderBy(desc(properties.updatedAt));
 
@@ -64,6 +69,14 @@ export async function updateProperty(
 
 export async function addProperty(data: PropertyFormData, images: string[]) {
   try {
+    const isResidential = ["House", "Villa", "Apartment"].includes(
+      data.propertyType || ""
+    );
+    const isAgricultural = ["Argicultural Land", "Dry Land"].includes(
+      data.propertyType || ""
+    );
+    const isPlot = data.propertyType === "Plot";
+
     const newProperty = await db
       .insert(properties)
       .values({
@@ -74,13 +87,41 @@ export async function addProperty(data: PropertyFormData, images: string[]) {
         city: data.city,
         state: data.state,
         country: data.country,
-        bedrooms: data.bedrooms,
-        bathrooms: data.bathrooms,
         areaSqFt: data.areaSqFt,
         propertyType: data.propertyType,
         isDeleted: false,
         brokerId: data.brokerId,
         thumbnail: images[0],
+        // Residential specific fields
+        bedrooms: data.bedrooms,
+        bathrooms: data.bathrooms,
+        furnishingStatus: data.furnishingStatus,
+        constructionYear: data.constructionYear,
+        totalFloors: data.totalFloors,
+        floorNumber: data.floorNumber,
+        hasLift: data.hasLift,
+        hasPowerBackup: data.hasPowerBackup,
+        hasParking: data.hasParking,
+        hasBalcony: data.hasBalcony,
+        // Agricultural specific fields
+        soilType: data.soilType,
+        irrigationSource: data.irrigationSource,
+        cropSuitability: data.cropSuitability,
+        hasFencing: data.hasFencing,
+        waterQuality: data.waterQuality,
+        waterSource: data.waterSource,
+        cultivationStatus: data.cultivationStatus,
+        // Plot specific fields
+        plotShape: data.plotShape,
+        isCornerPlot: data.isCornerPlot,
+        dimensions: data.dimensions,
+        facing: data.facing,
+        hasBoundary: data.hasBoundary,
+        roadWidth: data.roadWidth,
+        distanceFromHighway: data.distanceFromHighway,
+        hasPublicTransport: data.hasPublicTransport,
+        nearbyLandmarks: data.nearbyLandmarks,
+        approvalStatus: data.approvalStatus,
       })
       .returning({ id: properties.id });
 
@@ -113,15 +154,13 @@ export async function deleteAllPropertiesById(propertyIds: number[]) {
   }
 }
 
-
-
-export async function getPropertiesDeleted(isDeleted:boolean) {
+export async function getPropertiesDeleted(isDeleted: boolean) {
   try {
     const result = await db
       .select()
       .from(properties)
       .where(eq(properties.isDeleted, isDeleted))
-      .orderBy(desc(properties.updatedAt))
+      .orderBy(desc(properties.updatedAt));
     return result;
   } catch (error) {
     console.error("Database query error [PROPERTY_TABLE]:", error);
@@ -130,12 +169,14 @@ export async function getPropertiesDeleted(isDeleted:boolean) {
 }
 
 ///query to get property by id
-export async function getProperty(propertyId:number) {
+export async function getProperty(propertyId: number) {
   try {
     const result = await db
       .select()
       .from(properties)
-      .where(and(eq(properties.id, propertyId), eq(properties.isDeleted,false)))
+      .where(
+        and(eq(properties.id, propertyId), eq(properties.isDeleted, false))
+      );
 
     return result;
   } catch (error) {
@@ -144,15 +185,13 @@ export async function getProperty(propertyId:number) {
   }
 }
 
-
-
 ///query to get property by id
-export async function getImagesById(propertyId:number) {
+export async function getImagesById(propertyId: number) {
   try {
     const result = await db
       .select()
       .from(propertyImages)
-      .where(eq(propertyImages.propertyId, propertyId))
+      .where(eq(propertyImages.propertyId, propertyId));
 
     return result;
   } catch (error) {

@@ -41,7 +41,7 @@ body {
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-    --premium-gradient: linear-gradient(180deg, #a8ff78 100%, #32d9a7 10%);
+    --premium-gradient: linear-gradient(180deg, #399909 100%, #096706 10%);
 
   }
   .dark {
@@ -90,7 +90,7 @@ body {
 }
 
 .text-premium{
-  background:linear-gradient(180deg, #a8ff78 100%, #32d9a7 10%);
+  background:linear-gradient(180deg, #399909 100%, #096706 10%);
 
   background-clip: text;
   -webkit-background-clip: text;

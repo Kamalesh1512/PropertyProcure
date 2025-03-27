@@ -16,7 +16,7 @@ export const getAllProperties = async (
   name: string,
   city: string,
   minPrice:number,
-  maxPrice:number,
+  maxPrice:number | undefined,
   propertyType: string
 ) => {
   try {

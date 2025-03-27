@@ -45,7 +45,7 @@ export default function Hero() {
               <Link
                 href="/properties"
               >
-                <Button variant={"default"} className="bg-premium-gradient text-black">Browse Properties</Button>
+                <Button variant={"default"} className="bg-premium-gradient text-white font-bold">Browse Properties</Button>
                 
               </Link>
               {/* <Link

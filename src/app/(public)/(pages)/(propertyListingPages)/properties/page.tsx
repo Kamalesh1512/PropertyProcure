@@ -21,7 +21,12 @@ const DashboardPage = async ({ searchParams }: DashboardPageProps) => {
     maxPrice = 0
   }
   else{
-    [minPrice,maxPrice]=price.split('-').map(Number)
+    if (price === '10000000+') {
+      [minPrice,maxPrice] = [10000000,undefined]
+    }else{
+      [minPrice,maxPrice]=price.split('-').map(Number)
+    }
+    
   }
   
   const allProperties = await getAllProperties(name, city, minPrice,maxPrice,propertyType);

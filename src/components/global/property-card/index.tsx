@@ -114,7 +114,7 @@ const PropertyCard = ({
     <div>
       <motion.div
         className={`group w-full flex flex-col gap-y-3 rounded-xl p-3 transition-colors ${
-          !isDelete && "hover:bg-muted-foreground/50 bg-muted/50 "
+          !isDelete && "hover:bg-muted-foreground/50 bg-muted/50"
         }`}
         variants={itemVariants}
       >

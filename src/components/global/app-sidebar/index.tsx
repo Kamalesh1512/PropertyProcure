@@ -14,12 +14,15 @@ import NavMain from "@/components/global/app-sidebar/nav-main";
 import { data, publicData } from "@/lib/constants";
 import { InferSelectModel } from "drizzle-orm";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   isAdmin?: Promise<boolean> | boolean;
 }
 
 const AppSidebar = ({isAdmin, ...props }: AppSidebarProps) => {
+
+  const {theme} = useTheme()
   return (
     <Sidebar
       collapsible="icon"
@@ -33,7 +36,7 @@ const AppSidebar = ({isAdmin, ...props }: AppSidebarProps) => {
         >
           <div className="flex flex-row justify-between items-center">
           <div className="flex aspect-square size-24 items-center rounded-lg text-sidebar-primary-foreground">
-            <img src={"/logo.png"} alt="logo" className="w-[75px] h-[100px]" />
+            <img src={theme == "light" ? "/logo-light.png" : "/logo-dark.png"} alt="logo" className="w-[100px] h-[100px]" />
             </div>
             <span className="flex flex-col items-start font-bold text-sm">
             <span>
