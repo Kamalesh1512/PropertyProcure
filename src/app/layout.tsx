@@ -42,7 +42,7 @@ export default function RootLayout({
         className={cn("bg-transparent", outfit.className)}
         suppressHydrationWarning
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           {children}
         <Toaster/>
         </ThemeProvider>

@@ -33,6 +33,7 @@ interface SettingProps {
 export default function SettingsPage({ isAdmin }: SettingProps) {
   const { theme, setTheme } = useTheme()
   const [isAdminResolved, setIsAdminResolved] = useState<boolean | null>(null)
+  const [systemTheme,setSystemTheme] = useState('')
 
   // Handle Promise<boolean> or boolean for isAdmin
   useEffect(() => {
@@ -48,12 +49,29 @@ export default function SettingsPage({ isAdmin }: SettingProps) {
     resolveIsAdmin()
   }, [isAdmin])
 
+
+  // useEffect(() => {
+  //   // Check initial system theme
+  //   const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+  //   setSystemTheme(mediaQuery.matches ? "dark" : "light");
+
+  //   // Listen for changes in system theme
+  //   const handleChange = (e: MediaQueryListEvent) => {
+  //     setSystemTheme(e.matches ? "dark" : "light");
+  //   };
+
+  //   mediaQuery.addEventListener("change", handleChange);
+  //   return () => mediaQuery.removeEventListener("change", handleChange);
+  // }, []);
+
+  // Theme options with dynamic system label
   const themeOptions = [
     { value: "light", label: "Light", icon: Sun },
     { value: "dark", label: "Dark", icon: Moon },
-    { value: "system", label: "System", icon: Monitor },
-  ]
+    { value: "system", label: `System`, icon: Monitor },
+  ];
 
+  
   return (
     <motion.div
       initial="hidden"
