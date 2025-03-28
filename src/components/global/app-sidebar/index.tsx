@@ -39,7 +39,7 @@ const AppSidebar = ({isAdmin, ...props }: AppSidebarProps) => {
           <div className="flex flex-row justify-between items-center">
           <div className="flex aspect-square size-24 items-center rounded-lg text-sidebar-primary-foreground">
           {/* {theme == "dark" ? "/logo-dark.png" : "/logo-light.png"} */}
-            <img src='/logo-dark-green.png' alt="logo" className="w-[100px] h-[100px]" />
+            <img src='/logo.png' alt="logo" className="w-[100px] h-[100px]" />
             </div>
             <span className="flex flex-col items-start font-bold text-sm">
             <span>

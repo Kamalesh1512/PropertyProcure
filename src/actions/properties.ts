@@ -8,6 +8,7 @@ import {
   getPropertiesDeleted,
   getProperty,
   updateProperty,
+  updatePropertyImages,
 } from "@/db/queries";
 import { onAuthenticateAdmin } from "./admin";
 import { PropertyFormData } from "@/app/(Protected)/(Pages)/(formPages)/create-property/_components/PropertyForm";
@@ -15,8 +16,8 @@ import { PropertyFormData } from "@/app/(Protected)/(Pages)/(formPages)/create-p
 export const getAllProperties = async (
   name: string,
   city: string,
-  minPrice:number,
-  maxPrice:number | undefined,
+  minPrice: number,
+  maxPrice: number | undefined,
   propertyType: string
 ) => {
   try {
@@ -140,14 +141,11 @@ export const getDeletedProperties = async () => {
   }
 };
 
-
-
-
-export const getPropertyById = async (propertyId:number) => {
+export const getPropertyById = async (propertyId: number) => {
   try {
     const property = await getProperty(propertyId);
 
-    if (!property || property.length == 0 ) {
+    if (!property || property.length == 0) {
       return { status: 400, message: "Failed to fetch property", data: [] };
     }
     return { status: 200, data: property };
@@ -157,16 +155,42 @@ export const getPropertyById = async (propertyId:number) => {
   }
 };
 
+export const editProperty = async (
+  propertyId: number,
+  data: PropertyFormData,
+  images: string[]
+) => {
+  try {
+    const property = await updateProperty(propertyId, data);
 
+    if (!property || property.rowCount == 0) {
+      return { status: 400, message: "Failed to update property", data: [] };
+    } else {
+      const propertyImages = await updatePropertyImages(propertyId, images);
 
-export const getPropertiesImages = async (propertyId:number) => {
+      if (!propertyImages || propertyImages.success !== true) {
+        return {
+          status: 401,
+          message: "Failed to update property images",
+          data: [],
+        };
+      }
+      return { status: 200, data: property.rowCount};
+    }
+  } catch (error) {
+    console.log("⚠️ ERROR ", error);
+    return { status: 500, error: "Internal Server Error" };
+  }
+};
+
+export const getPropertiesImages = async (propertyId: number) => {
   try {
     const property = await getImagesById(propertyId);
 
-    if (!property || property.length == 0 ) {
+    if (!property || property.length == 0) {
       return { status: 400, message: "Failed to fetch property", data: [] };
     }
-    const images = property.map((image)=>(image.imageUrl))
+    const images = property.map((image) => image.imageUrl);
     return { status: 200, data: images };
   } catch (error) {
     console.log("⚠️ ERROR ", error);

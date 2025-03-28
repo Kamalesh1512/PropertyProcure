@@ -162,3 +162,22 @@ export async function getImagesById(propertyId: number) {
     throw new Error("Failed to delete properties");
   }
 }
+
+///update property images
+export async function updatePropertyImages(propertyId: number, images: string[]) {
+  try {
+    // Step 1: Remove existing images for the property
+    await db.delete(propertyImages).where(eq(propertyImages.propertyId, propertyId));
+
+    // Step 2: Insert new images
+    if (images.length > 0) {
+      const updatedImages = await db.insert(propertyImages).values(
+        images.map((imageUrl) => ({ propertyId, imageUrl }))
+      );
+    }
+    return { success: true };
+  } catch (error) {
+    console.error("Database query error [PROPERTY_IMAGES]:", error);
+    throw new Error("Failed to update property images.");
+  }
+}

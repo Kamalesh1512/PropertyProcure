@@ -6,8 +6,16 @@ interface ImageProps {
   removeImage: (imageUrl: string) => void;
 }
 
-export const useImageStore = create<ImageProps>((set)=>({
-    images:[],
-    addImage:(imageUrl) =>set((state) => ({images:[...state.images,imageUrl]})),
-    removeImage:(imageUrl) => set((state) => ({images: state.images.filter((img)=> img!==imageUrl)}))
-}))
+export const useImageStore = create<ImageProps>((set) => ({
+  images: [],
+  addImage: (imageUrl) =>
+    set((state) => ({
+      images: state.images.includes(imageUrl) // ✅ Prevent duplicate entries
+        ? state.images
+        : [...state.images, imageUrl],
+    })),
+  removeImage: (imageUrl) =>
+    set((state) => ({
+      images: state.images.filter((img) => img !== imageUrl),
+    })),
+}));

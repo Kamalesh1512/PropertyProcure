@@ -1,25 +1,51 @@
-"use client"
-import { useForm, useWatch } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
+"use client";
+import { useForm, useWatch } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
-import { motion } from "framer-motion"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Button } from "@/components/ui/button"
-import { useImageStore } from "@/store/imageStore"
-import { useEffect, useState } from "react"
-import { Command, CommandEmpty, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
-import { cities } from "@/lib/constants"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { createProperty } from "@/actions/properties"
-import { useToast } from "@/hooks/use-toast"
-import { useRouter } from "next/navigation"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Card, CardContent } from "@/components/ui/card"
-import ImageUpload from "./ImageUpload"
+import { motion } from "framer-motion";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  FormDescription,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { useImageStore } from "@/store/imageStore";
+import { useEffect, useState } from "react";
+import {
+  Command,
+  CommandEmpty,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { cities } from "@/lib/constants";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { createProperty, editProperty } from "@/actions/properties";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Card, CardContent } from "@/components/ui/card";
+import ImageUpload from "./ImageUpload";
+import { InferSelectModel } from "drizzle-orm";
+import { properties } from "@/db/schema";
 
 // Enhanced property schema with conditional fields
 const propertySchema = z.object({
@@ -32,22 +58,43 @@ const propertySchema = z.object({
   country: z.string().min(2, "Country is required"),
   zipCode: z.string().optional(),
   areaSqFt: z.string().min(1, "Area is required"),
-  propertyType: z.enum(["Apartment", "House", "Villa", "Argicultural Land", "Dry Land", "Plot"]),
+  propertyType: z.enum([
+    "Apartment",
+    "House",
+    "Villa",
+    "Argicultural Land",
+    "Dry Land",
+    "Plot",
+  ]),
   brokerId: z.string().min(3, "Broker ID is required"),
-  propertyDetails:z.string().min(3,"Property details is required")
-})
+  propertyDetails: z.string().min(3, "Property details is required"),
+});
 
-export type PropertyFormData = z.infer<typeof propertySchema>
+export type PropertyFormData = z.infer<typeof propertySchema>;
 
-export default function PropertyForm() {
-  const { toast } = useToast()
-  const router = useRouter()
-  const { images } = useImageStore()
-  const [isLoading, setIsLoading] = useState(false)
-  const [open,setOpen] =useState(false);
+type PropertyType = InferSelectModel<typeof properties>;
 
-  const searchTerms = ["mys", "bangalore", "hunsur", "mandya"]
-  const availableCities = cities.filter((city) => searchTerms.some((term) => city.name.toLowerCase().startsWith(term)))
+interface EditPropertyFormProps {
+  property: PropertyType[];
+  Images: string[];
+}
+
+export default function EditPropertyForm({
+  property,
+  Images,
+}: EditPropertyFormProps) {
+  const { toast } = useToast();
+  const router = useRouter();
+  const { images, addImage } = useImageStore();
+  const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const searchTerms = ["mys", "bangalore", "hunsur", "mandya"];
+  const availableCities = cities.filter((city) =>
+    searchTerms.some((term) => city.name.toLowerCase().startsWith(term))
+  );
+
+//   console.log("images availale",Images)
 
   const form = useForm<PropertyFormData>({
     resolver: zodResolver(propertySchema),
@@ -60,46 +107,85 @@ export default function PropertyForm() {
       country: "India",
       state: "Karnataka",
       city: "",
-      zipCode:undefined,
+      zipCode: "",
       areaSqFt: "",
       propertyType: "House",
       brokerId: "",
-      propertyDetails:"",
+      propertyDetails: "",
     },
-  })
+  });
 
+  const fetchPropertyData = async (data: PropertyType[]) => {
+    try {
+      const property = data[0];
+      if (property) {
+        form.reset({
+          title: property.title,
+          price: property.price,
+          description: property.description || "",
+          address: property.address,
+          country: property.country || "India",
+          state: property.state || "Karnataka",
+          city: property.city || "",
+          zipCode: property.zipCode || "",
+          areaSqFt: property.areaSqFt || "",
+          propertyType:
+            property.propertyType as PropertyFormData["propertyType"],
+          brokerId: property.brokerId,
+          propertyDetails: property.propertyDetails || "",
+        });
+        
+      }
+    } catch (error) {
+      console.log("Error Fecthing the property", error);
+      toast({
+        variant: "destructive",
+        description: "⚠️ Failed to fetch property details",
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (property[0]?.id) {
+        fetchPropertyData(property);
+    }
+    if (images.length ===0) {
+        Images.forEach((image) => addImage(image));
+    }
+    
+  }, [property[0]?.id]);
 
   const onSubmit = async (data: PropertyFormData) => {
-    setIsLoading(true)
-    const payload = { ...data, images }
-    console.log("Submitting:", payload)
+    setIsLoading(true);
+    const payload = { ...data, images };
+    console.log("Submitting:", payload);
 
     try {
-      const response = await createProperty(data, images)
+      const response = await editProperty(property[0]?.id, data, images);
 
       if (response.status === 200) {
         toast({
           variant: "default",
-          description: "✅ Property created successfully",
-        })
-        router.push("/admin")
+          description: "✅ Property updated successfully",
+        });
+        router.push("/admin");
       } else {
-        throw new Error("Failed to create property")
+        throw new Error("Failed to update property");
       }
     } catch (error) {
-      console.error("Failed to create property")
+      console.error("Failed to update property");
       toast({
         variant: "default",
-        description: "⚠️ Failed to create Property",
-      })
+        description: "⚠️ Failed to update Property",
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-    console.log("⚠️ Validation Errors:", form.formState.errors)
-  }, [form.formState.errors])
+    console.log("⚠️ Validation Errors:", form.formState.errors);
+  }, [form.formState.errors]);
 
   return (
     <motion.div
@@ -108,7 +194,9 @@ export default function PropertyForm() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <h2 className="text-3xl font-bold mb-6 text-center text-primary">Create Property</h2>
+      <h2 className="text-3xl font-bold mb-6 text-center text-primary">
+        Create Property
+      </h2>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -152,7 +240,11 @@ export default function PropertyForm() {
                           type="number"
                           placeholder="Enter price"
                           {...field}
-                          onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : 0)}
+                          onChange={(e) =>
+                            field.onChange(
+                              e.target.value ? Number(e.target.value) : 0
+                            )
+                          }
                         />
                       </FormControl>
                       <FormMessage />
@@ -167,7 +259,10 @@ export default function PropertyForm() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Property Type</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select Property Type" />
@@ -175,7 +270,9 @@ export default function PropertyForm() {
                         </FormControl>
                         <SelectContent>
                           <SelectItem value="Apartment">Apartment</SelectItem>
-                          <SelectItem value="Argicultural Land">Argicultural Land</SelectItem>
+                          <SelectItem value="Argicultural Land">
+                            Argicultural Land
+                          </SelectItem>
                           <SelectItem value="Dry Land">Dry Land</SelectItem>
                           <SelectItem value="House">House</SelectItem>
                           <SelectItem value="Plot">Plot</SelectItem>
@@ -234,7 +331,11 @@ export default function PropertyForm() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Country</FormLabel>
-                        <Input value="India" disabled className="cursor-not-allowed" />
+                        <Input
+                          value="India"
+                          disabled
+                          className="cursor-not-allowed"
+                        />
                       </FormItem>
                     )}
                   />
@@ -246,7 +347,11 @@ export default function PropertyForm() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>State</FormLabel>
-                        <Input value="Karnataka" disabled className="cursor-not-allowed" />
+                        <Input
+                          value="Karnataka"
+                          disabled
+                          className="cursor-not-allowed"
+                        />
                       </FormItem>
                     )}
                   />
@@ -258,13 +363,18 @@ export default function PropertyForm() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>City</FormLabel>
-                        <Popover open = {open} onOpenChange={setOpen}>
+                        <Popover open={open} onOpenChange={setOpen}>
                           <PopoverTrigger asChild>
-                            <Button variant="outline" className="w-full justify-between">
-                              {field.value ? field.value : "Search & Select City"}
+                            <Button
+                              variant="outline"
+                              className="w-full justify-between"
+                            >
+                              {field.value
+                                ? field.value
+                                : "Search & Select City"}
                             </Button>
                           </PopoverTrigger>
-                          <PopoverContent className="w-full p-0" >
+                          <PopoverContent className="w-full p-0">
                             <Command>
                               <CommandInput placeholder="Search city..." />
                               <CommandList>
@@ -273,9 +383,9 @@ export default function PropertyForm() {
                                     <CommandItem
                                       key={city.id}
                                       onSelect={() => {
-                                        field.onChange(city.name)
-                                        form.trigger("city")
-                                        setOpen(false)
+                                        field.onChange(city.name);
+                                        form.trigger("city");
+                                        setOpen(false);
                                       }}
                                     >
                                       {city.name}
@@ -323,13 +433,16 @@ export default function PropertyForm() {
                   <FormItem>
                     <FormLabel>Specific details about property</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Enter the property details..." className="min-h-[150px]" {...field} />
+                      <Textarea
+                        placeholder="Enter the property details..."
+                        className="min-h-[150px]"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
             </CardContent>
           </Card>
 
@@ -356,7 +469,9 @@ export default function PropertyForm() {
           {/* Description */}
           <Card>
             <CardContent className="pt-6">
-              <h3 className="text-lg font-semibold mb-4">Additional Information</h3>
+              <h3 className="text-lg font-semibold mb-4">
+                Additional Information
+              </h3>
               <FormField
                 control={form.control}
                 name="description"
@@ -364,7 +479,11 @@ export default function PropertyForm() {
                   <FormItem>
                     <FormLabel>Property Description</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Enter the additional details..." className="min-h-[150px]" {...field} />
+                      <Textarea
+                        placeholder="Enter the additional details..."
+                        className="min-h-[150px]"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -374,14 +493,10 @@ export default function PropertyForm() {
           </Card>
 
           <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Submitting..." : "Submit Property"}
+            {isLoading ? "Submitting..." : "Update Property"}
           </Button>
         </form>
       </Form>
     </motion.div>
-  )
+  );
 }
-
-
-
-

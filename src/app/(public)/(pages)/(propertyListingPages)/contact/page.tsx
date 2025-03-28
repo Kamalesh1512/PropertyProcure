@@ -161,7 +161,7 @@ export default function ContactPage() {
                   </div>
                 </motion.div> */}
 
-                <motion.div
+                {/* <motion.div
                   className="flex items-start gap-3 md:gap-4"
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400, damping: 10 }}
@@ -179,11 +179,11 @@ export default function ContactPage() {
                     <p className="text-xs md:text-sm text-muted-foreground">
                       Saturday - Sunday: 10:00 AM - 4:00 PM
                     </p>
-                    {/* <p className="text-xs md:text-sm text-muted-foreground">
+                    <p className="text-xs md:text-sm text-muted-foreground">
                       Sunday: Closed
-                    </p> */}
+                    </p>
                   </div>
-                </motion.div>
+                </motion.div> */}
               </div>
             </CardContent>
           </Card>
@@ -316,7 +316,7 @@ export default function ContactPage() {
       </div>
 
       {/* Map Section */}
-      <motion.div
+      {/* <motion.div
         variants={fadeIn}
         className="mt-10 md:mt-16 max-w-5xl mx-auto"
       >
@@ -325,12 +325,11 @@ export default function ContactPage() {
           Find Us
         </h2>
         <div className="aspect-video w-full bg-muted rounded-lg overflow-hidden border">
-          {/* Replace with your actual map embed */}
           <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm md:text-base">
             <p>Google Maps Embed would go here</p>
           </div>
         </div>
-      </motion.div>
+      </motion.div> */}
       
     </motion.div>
   );
