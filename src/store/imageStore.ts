@@ -4,6 +4,7 @@ interface ImageProps {
   images: string[];
   addImage: (imageUrl: string) => void;
   removeImage: (imageUrl: string) => void;
+  clearImages:() => void;
 }
 
 export const useImageStore = create<ImageProps>((set) => ({
@@ -18,4 +19,5 @@ export const useImageStore = create<ImageProps>((set) => ({
     set((state) => ({
       images: state.images.filter((img) => img !== imageUrl),
     })),
+    clearImages:() => set({images:[]})
 }));

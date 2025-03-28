@@ -85,7 +85,7 @@ export default function EditPropertyForm({
 }: EditPropertyFormProps) {
   const { toast } = useToast();
   const router = useRouter();
-  const { images, addImage } = useImageStore();
+  const { images, addImage, clearImages } = useImageStore();
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -94,7 +94,7 @@ export default function EditPropertyForm({
     searchTerms.some((term) => city.name.toLowerCase().startsWith(term))
   );
 
-//   console.log("images availale",Images)
+  //   console.log("images availale",Images)
 
   const form = useForm<PropertyFormData>({
     resolver: zodResolver(propertySchema),
@@ -134,7 +134,6 @@ export default function EditPropertyForm({
           brokerId: property.brokerId,
           propertyDetails: property.propertyDetails || "",
         });
-        
       }
     } catch (error) {
       console.log("Error Fecthing the property", error);
@@ -147,12 +146,15 @@ export default function EditPropertyForm({
 
   useEffect(() => {
     if (property[0]?.id) {
-        fetchPropertyData(property);
+      fetchPropertyData(property);
     }
-    if (images.length ===0) {
-        Images.forEach((image) => addImage(image));
+    if (images.length === 0) {
+      Images.forEach((image) => addImage(image));
     }
-    
+
+    return () => {
+      clearImages();
+    };
   }, [property[0]?.id]);
 
   const onSubmit = async (data: PropertyFormData) => {
