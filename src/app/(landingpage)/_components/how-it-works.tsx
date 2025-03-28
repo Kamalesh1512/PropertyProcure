@@ -36,13 +36,13 @@ export default function HowItWorks() {
       icon: <Phone className="h-8 w-8" />,
       title: "Contact Us",
       description:
-        "Connect us, and we’ll help you find the perfect Property that meets your requirements",
+        "Contact us, and we’ll help you find the perfect Property that meets your requirements",
     },
     {
       icon: <TimerIcon className="h-8 w-8" />,
       title: "Schedule a Visit",
       description:
-        "Talk to us to schedule a property visit at your convenience and move forward if it’s the right fit!",
+        "Talk to us and schedule a property visit at your convenience to move forward if you find it suitable.",
     },
 
   ];

@@ -17,6 +17,11 @@ export default function Features() {
       description: "All properties are handpicked and listed by our team after verification with agents.",
     },
     {
+      icon: <HelpingHand className="h-10 w-10" />,
+      title: "NRI Assist",
+      description:"Living abroad and looking for a property in Karnataka? No worries! We'll assist you in the entire process."
+    },
+    {
       icon: <Shield className="h-10 w-10" />,
       title: "Secure Transactions",
       description: "Your information and transactions are protected with industry-leading security measures.",
@@ -36,11 +41,7 @@ export default function Features() {
       title: "Advanced Search",
       description: "Find exactly what you're looking for with our powerful search filters and tools.",
     },
-    {
-      icon: <HelpingHand className="h-10 w-10" />,
-      title: "NRI Assist",
-      description: "Living abroad and looking for a property in karnataka? No worries! we'll help you find the perfect property.",
-    },
+
   ]
 
   const containerVariants = {
