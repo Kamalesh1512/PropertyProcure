@@ -129,7 +129,7 @@ export const FilterPopup: React.FC<FilterProps> = ({ filters, onFilterChange }) 
   const [open, setOpen] = useState(false)
   const [localFilters, setLocalFilters] = useState(filters)
 
-  const searchTerms = ["mys", "bangalore", "hunsur", "mandya"]
+  const searchTerms = ["mys", "bangalore", "coorg", "mandya"]
   const availableCities = cities.filter((city) => searchTerms.some((term) => city.name.toLowerCase().startsWith(term)))
 
   // Function to reset all filters
@@ -235,12 +235,12 @@ export const FilterPopup: React.FC<FilterProps> = ({ filters, onFilterChange }) 
                   <SelectValue placeholder="Property Type" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Apartment">Apartment</SelectItem>
+                  {/* <SelectItem value="Apartment">Apartment</SelectItem> */}
                   <SelectItem value="Argicultural Land">Argicultural Land</SelectItem>
-                  <SelectItem value="Dry Land">Dry Land</SelectItem>
-                  <SelectItem value="House">House</SelectItem>
-                  <SelectItem value="Plot">Plot</SelectItem>
-                  <SelectItem value="Villa">Villa</SelectItem>
+                  <SelectItem value="Plantations">Plantations</SelectItem>
+                  <SelectItem value="Residential Plots">Residential Plots</SelectItem>
+                  <SelectItem value="Commercial">Commercial</SelectItem>
+                  {/* <SelectItem value="Villa">Villa</SelectItem> */}
                 </SelectContent>
               </Select>
             </div>

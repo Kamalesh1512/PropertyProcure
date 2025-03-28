@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { Upload, Search, Phone, CheckCircle } from "lucide-react";
+import { Upload, Search, Phone, CheckCircle, TimerIcon } from "lucide-react";
 import Image from "next/image";
 
 export default function HowItWorks() {
@@ -33,17 +33,18 @@ export default function HowItWorks() {
         "Browse through our extensive collection of verified properties.",
     },
     {
-      icon: <CheckCircle className="h-8 w-8" />,
-      title: "Find Your Match",
-      description:
-        "Use filters to narrow down properties that match your requirements.",
-    },
-    {
       icon: <Phone className="h-8 w-8" />,
       title: "Contact Us",
       description:
-        "Connect with us, and we’ll help you find and secure the perfect Property",
+        "Connect us, and we’ll help you find the perfect Property that meets your requirements",
     },
+    {
+      icon: <TimerIcon className="h-8 w-8" />,
+      title: "Schedule a Visit",
+      description:
+        "Talk to us to schedule a property visit at your convenience and move forward if it’s the right fit!",
+    },
+
   ];
 
   const containerVariants = {

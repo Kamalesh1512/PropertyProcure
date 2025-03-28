@@ -1536,5 +1536,13 @@ export const cities = [
       "name": "Yellapur",
       "latitude": "14.96370000",
       "longitude": "74.70929000"
-  }
+  },
+  {
+    "id": 134434,
+    "name": "Coorg",
+    // "latitude": "14.96370000",
+    // "longitude": "74.70929000"
+}
+
+
 ]

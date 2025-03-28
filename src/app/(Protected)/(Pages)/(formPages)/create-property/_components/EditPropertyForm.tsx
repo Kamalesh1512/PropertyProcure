@@ -59,12 +59,10 @@ const propertySchema = z.object({
   zipCode: z.string().optional(),
   areaSqFt: z.string().min(1, "Area is required"),
   propertyType: z.enum([
-    "Apartment",
-    "House",
-    "Villa",
     "Argicultural Land",
-    "Dry Land",
-    "Plot",
+    "Plantations",
+    "Residential Plots",
+    "Commercial",
   ]),
   brokerId: z.string().min(3, "Broker ID is required"),
   propertyDetails: z.string().min(3, "Property details is required"),
@@ -89,7 +87,7 @@ export default function EditPropertyForm({
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const searchTerms = ["mys", "bangalore", "hunsur", "mandya"];
+  const searchTerms = ["mys", "bangalore", "coorg", "mandya"];
   const availableCities = cities.filter((city) =>
     searchTerms.some((term) => city.name.toLowerCase().startsWith(term))
   );
@@ -109,7 +107,7 @@ export default function EditPropertyForm({
       city: "",
       zipCode: "",
       areaSqFt: "",
-      propertyType: "House",
+      propertyType: "Argicultural Land",
       brokerId: "",
       propertyDetails: "",
     },
@@ -271,14 +269,18 @@ export default function EditPropertyForm({
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="Apartment">Apartment</SelectItem>
+                          {/* <SelectItem value="Apartment">Apartment</SelectItem> */}
                           <SelectItem value="Argicultural Land">
                             Argicultural Land
                           </SelectItem>
-                          <SelectItem value="Dry Land">Dry Land</SelectItem>
-                          <SelectItem value="House">House</SelectItem>
-                          <SelectItem value="Plot">Plot</SelectItem>
-                          <SelectItem value="Villa">Villa</SelectItem>
+                          <SelectItem value="Plantations">
+                            Plantations
+                          </SelectItem>
+                          <SelectItem value="Residential Plots">
+                            Residential Plots
+                          </SelectItem>
+                          <SelectItem value="Commercial">Commercial</SelectItem>
+                          {/* <SelectItem value="Villa">Villa</SelectItem> */}
                         </SelectContent>
                       </Select>
                       <FormMessage />

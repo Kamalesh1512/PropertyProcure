@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Home, Users, Search, Shield, Clock, BarChart, MapPin } from "lucide-react"
+import { Home, Users, Search, Shield, Clock, BarChart, MapPin, LucideHelpingHand, HelpCircle, HelpingHand } from "lucide-react"
 
 export default function Features() {
   const features = [
@@ -17,24 +17,29 @@ export default function Features() {
       description: "All properties are handpicked and listed by our team after verification with agents.",
     },
     {
+      icon: <Shield className="h-10 w-10" />,
+      title: "Secure Transactions",
+      description: "Your information and transactions are protected with industry-leading security measures.",
+    },
+    // {
+    //   icon: <Clock className="h-10 w-10" />,
+    //   title: "Real-time Updates",
+    //   description: "Get instant notifications about new properties that match your criteria.",
+    // },
+    {
+      icon: <MapPin className="h-10 w-10" />,
+      title: "Diverse Properties",
+      description: "Find a variety of properties, including farmland, residential, and commercial sites.",
+    },
+    {
       icon: <Search className="h-10 w-10" />,
       title: "Advanced Search",
       description: "Find exactly what you're looking for with our powerful search filters and tools.",
     },
     {
-      icon: <Shield className="h-10 w-10" />,
-      title: "Secure Transactions",
-      description: "Your information and transactions are protected with industry-leading security measures.",
-    },
-    {
-      icon: <Clock className="h-10 w-10" />,
-      title: "Real-time Updates",
-      description: "Get instant notifications about new properties that match your criteria.",
-    },
-    {
-      icon: <MapPin className="h-10 w-10" />,
-      title: "Diverse Properties",
-      description: "Find a variety of properties, including farmland, residential, and commercial sites.",
+      icon: <HelpingHand className="h-10 w-10" />,
+      title: "NRI Assist",
+      description: "Living abroad and looking for a property in karnataka? No worries! we'll help you find the perfect property.",
     },
   ]
 
