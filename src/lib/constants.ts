@@ -1542,7 +1542,21 @@ export const cities = [
     "name": "Coorg",
     // "latitude": "14.96370000",
     // "longitude": "74.70929000"
-}
+},
+{
+    "id": 134435,
+    "name": "Wayanad(Kerala)",
+    // "latitude": "14.96370000",
+    // "longitude": "74.70929000"
+},
+{
+    "id": 134436,
+    "name": "Ooty",
+    // "latitude": "14.96370000",
+    // "longitude": "74.70929000"
+},
+
+
 
 
 ]

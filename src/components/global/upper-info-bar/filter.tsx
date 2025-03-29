@@ -129,9 +129,8 @@ export const FilterPopup: React.FC<FilterProps> = ({ filters, onFilterChange }) 
   const [open, setOpen] = useState(false)
   const [localFilters, setLocalFilters] = useState(filters)
 
-  const searchTerms = ["mys", "bangalore", "coorg", "mandya"]
+  const searchTerms = ["mys", "bangalore", "coorg", "mandya" , 'ooty','wayanad']
   const availableCities = cities.filter((city) => searchTerms.some((term) => city.name.toLowerCase().startsWith(term)))
-
   // Function to reset all filters
   const resetFilters = () => {
     const resetValues = { price: "", city: "", propertyType: "" }

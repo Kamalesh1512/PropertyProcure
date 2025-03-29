@@ -28,7 +28,8 @@ const AppSidebar = ({isAdmin, ...props }: AppSidebarProps) => {
   return (
     <Sidebar
       collapsible="icon"
-      className="max-w-fit bg-primary-foreground"
+      className="bg-primary-foreground"
+      variant="inset"
       {...props}
     >
       <SidebarHeader className="pt-5 px-2 pb-0">
@@ -37,9 +38,8 @@ const AppSidebar = ({isAdmin, ...props }: AppSidebarProps) => {
           className="data-[state=open]:text-sidebar-accent-foreground gap-5"
         >
           <div className="flex flex-row justify-between items-center">
-          <div className="flex aspect-square size-24 items-center rounded-lg text-sidebar-primary-foreground">
-          {/* {theme == "dark" ? "/logo-dark.png" : "/logo-light.png"} */}
-            <img src='/logo.png' alt="logo" className="w-[100px] h-[100px]" />
+          <div className="flex size-20 items-start rounded-lg text-sidebar-primary-foreground">
+            <img src='/logo.png' alt="logo" className="w-[80px] h-[75px] object-contain" />
             </div>
             <span className="flex flex-col items-start font-bold text-sm">
             <span>
@@ -65,3 +65,4 @@ const AppSidebar = ({isAdmin, ...props }: AppSidebarProps) => {
 };
 
 export default AppSidebar;
+

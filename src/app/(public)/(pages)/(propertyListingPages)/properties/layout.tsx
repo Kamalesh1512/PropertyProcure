@@ -5,6 +5,7 @@ import {
   SidebarProvider,
 } from "@/components/ui/sidebar";
 import { checkRole } from "@/utils/roles";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import React from "react";
 
@@ -13,6 +14,7 @@ const PropertiesListingLayout = async ({
 }: {
   children: React.ReactNode;
 }) => {
+
   return (
     <SidebarProvider>
       <AppSidebar />

@@ -87,7 +87,7 @@ export default function EditPropertyForm({
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const searchTerms = ["mys", "bangalore", "coorg", "mandya"];
+  const searchTerms = ["mys", "bangalore", "coorg", "mandya",'ooty','wayanad'];
   const availableCities = cities.filter((city) =>
     searchTerms.some((term) => city.name.toLowerCase().startsWith(term))
   );

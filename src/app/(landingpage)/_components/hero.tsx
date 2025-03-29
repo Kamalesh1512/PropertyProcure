@@ -34,8 +34,8 @@ export default function Hero() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4, duration: 0.7 }}
               >
-                Discover verified property listings across Bangalore, Mandya, Mysore and
-                Coorg. Connect with us, we'll help you find and own your dream
+                Discover verified property listings across Bangalore, Mandya, Mysore,
+                Coorg , Ooty and Wayanad(Kerala). Connect with us, we'll help you find and own your dream
                 property and with investment opportunities. Explore the
                 exclusive listing of farmland, residential, or commercial
                 property.

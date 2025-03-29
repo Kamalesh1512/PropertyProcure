@@ -11,7 +11,7 @@ import CreateButton from "./create-new";
 const UpperInfoBar = () => {
   return (
     <header className="sticky top-0 z-[10] flex shrink-0 flex-wrap items-center gap-2 bg-background p-4 justify-between">
-      <SidebarTrigger className="ml-1" />
+      <SidebarTrigger variant={'ghost'}/>
       <Separator orientation="vertical" className="mr-2 h-2" />
       <div className="w-full max-w-[95%] flex flex-wrap items-center justify-center gap-2">
         <Suspense fallback={<div>Loading...</div>}>

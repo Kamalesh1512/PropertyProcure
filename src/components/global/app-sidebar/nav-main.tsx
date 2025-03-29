@@ -43,7 +43,7 @@ const NavMain = ({
                   pathname.includes(item.url) && ""
                 }`}
               >
-                <item.icon className="'text-lg" />
+                <item.icon className="text-lg" />
                 <span>{item.title}</span>
               </Link>
             </SidebarMenuButton>
