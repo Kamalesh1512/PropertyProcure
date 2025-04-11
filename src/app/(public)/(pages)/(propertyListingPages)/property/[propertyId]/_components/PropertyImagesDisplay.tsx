@@ -123,7 +123,7 @@ const PropertyImagesDisplay = ({ images }: PropertyImagesDisplayProps) => {
               src={images[currentIndex] || "/placeholder.svg"}
               alt={`Property image ${currentIndex + 1}`}
               fill
-              className="object-cover"
+              className="object-contain"
               priority
             />
           </motion.div>

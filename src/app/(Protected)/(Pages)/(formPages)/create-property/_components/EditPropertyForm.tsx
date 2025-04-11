@@ -46,12 +46,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import ImageUpload from "./ImageUpload";
 import { InferSelectModel } from "drizzle-orm";
 import { properties } from "@/db/schema";
+import { formatPriceToString } from "@/lib/utils";
 
 // Enhanced property schema with conditional fields
 const propertySchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
   description: z.string().optional(),
-  price: z.coerce.number().positive("Price must be a positive number"),
+  price: z.string().min(1,"Price must be a positive number"),
   address: z.string().min(5, "Address is required"),
   city: z.string().min(1, "City is required"),
   state: z.string().min(2, "State is required"),
@@ -99,7 +100,7 @@ export default function EditPropertyForm({
     mode: "onChange",
     defaultValues: {
       title: "",
-      price: 0,
+      price: "",
       description: "",
       address: "",
       country: "India",
@@ -116,10 +117,14 @@ export default function EditPropertyForm({
   const fetchPropertyData = async (data: PropertyType[]) => {
     try {
       const property = data[0];
+
+      
       if (property) {
+
+        const stringPrice = formatPriceToString(property.price)
         form.reset({
           title: property.title,
-          price: property.price,
+          price: stringPrice,
           description: property.description || "",
           address: property.address,
           country: property.country || "India",
@@ -237,7 +242,6 @@ export default function EditPropertyForm({
                       <FormLabel>Price (₹)</FormLabel>
                       <FormControl>
                         <Input
-                          type="number"
                           placeholder="Enter price"
                           {...field}
                           onChange={(e) =>
@@ -461,7 +465,7 @@ export default function EditPropertyForm({
                   <FormItem>
                     <FormLabel>Broker ID</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter Broker ID" {...field} />
+                      <Input placeholder="Enter Broker ID (Format - Brokername-location-contactNo)" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

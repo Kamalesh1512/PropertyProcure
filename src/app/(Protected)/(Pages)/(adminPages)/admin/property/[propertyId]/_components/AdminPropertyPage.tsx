@@ -25,6 +25,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import PropertyImagesDisplay from "@/app/(public)/(pages)/(propertyListingPages)/property/[propertyId]/_components/PropertyImagesDisplay"
+import { formatPriceToString } from "@/lib/utils"
 
 type PropertyType = InferSelectModel<typeof properties>
 
@@ -64,6 +65,8 @@ const AdminPropertyPage = ({ property, imageUrls, whatsappNumber = "918310666162
   }
 
   const propertyData = property[0]
+
+  const priceString = formatPriceToString(propertyData.price)
 
   const [brokerName, brokerLoc , brokerContact] = propertyData?.brokerId.split('-')
 
@@ -118,7 +121,7 @@ const AdminPropertyPage = ({ property, imageUrls, whatsappNumber = "918310666162
         <motion.div variants={fadeIn} className="flex justify-start md:justify-end items-center">
           <div className="bg-primary/10 px-6 py-3 rounded-lg">
             <p className="text-sm text-muted-foreground">Price</p>
-            <p className="text-3xl font-bold text-primary">₹{propertyData?.price.toLocaleString()}</p>
+            <p className="text-3xl font-bold text-primary">₹{priceString}</p>
           </div>
         </motion.div>
       </div>

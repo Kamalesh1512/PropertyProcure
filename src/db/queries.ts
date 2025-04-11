@@ -3,6 +3,7 @@ import { and, desc, eq, gte, ilike, inArray, lte, or } from "drizzle-orm";
 import { properties, propertyImages } from "./schema";
 import { PropertyFormDataProps } from "@/lib/types";
 import { PropertyFormData } from "@/app/(Protected)/(Pages)/(formPages)/create-property/_components/PropertyForm";
+import { parsePriceToNumber } from "@/lib/utils";
 
 //query to get user by ID
 export async function getProperties(
@@ -69,12 +70,14 @@ export async function updateProperty(
 
 export async function addProperty(data: PropertyFormData, images: string[]) {
   try {
+
+   const price = parsePriceToNumber(data.price)
     const newProperty = await db
       .insert(properties)
       .values({
         title: data.title,
         description: data.description,
-        price: data.price,
+        price: price,
         address: data.address,
         city: data.city,
         state: data.state,

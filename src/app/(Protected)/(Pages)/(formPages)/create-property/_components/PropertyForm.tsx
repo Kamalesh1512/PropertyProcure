@@ -49,7 +49,7 @@ import ImageUpload from "./ImageUpload";
 const propertySchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
   description: z.string().optional(),
-  price: z.coerce.number().positive("Price must be a positive number"),
+  price: z.string().min(3,"Price must be a positive number"),
   address: z.string().min(5, "Address is required"),
   city: z.string().min(1, "City is required"),
   state: z.string().min(2, "State is required"),
@@ -85,7 +85,7 @@ export default function PropertyForm() {
     mode: "onChange",
     defaultValues: {
       title: "",
-      price: 0,
+      price: "",
       description: "",
       address: "",
       country: "India",
@@ -181,14 +181,8 @@ export default function PropertyForm() {
                       <FormLabel>Price (₹)</FormLabel>
                       <FormControl>
                         <Input
-                          type="number"
-                          placeholder="Enter price"
+                          placeholder="Enter price with suffix ('CR','L')"
                           {...field}
-                          onChange={(e) =>
-                            field.onChange(
-                              e.target.value ? Number(e.target.value) : 0
-                            )
-                          }
                         />
                       </FormControl>
                       <FormMessage />
@@ -238,7 +232,7 @@ export default function PropertyForm() {
                   name="areaSqFt"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Area (sq ft)</FormLabel>
+                      <FormLabel>Area</FormLabel>
                       <FormControl>
                         <Input placeholder="Enter area" {...field} />
                       </FormControl>
@@ -405,7 +399,7 @@ export default function PropertyForm() {
                   <FormItem>
                     <FormLabel>Broker ID</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter Broker ID" {...field} />
+                      <Input placeholder="Enter Broker ID (Format - Brokername-location-contactNo)." {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

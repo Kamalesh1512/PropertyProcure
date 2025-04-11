@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { itemVariants } from "@/lib/constants";
 import { redirect, useRouter } from "next/navigation";
-import { timeAgo } from "@/lib/utils";
+import { formatPriceToString, timeAgo } from "@/lib/utils";
 import AlertDialogBox from "../alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -35,6 +35,8 @@ const PropertyCard = ({
 
   const router = useRouter();
   const { toast } = useToast();
+
+  const priceString = formatPriceToString(price)
 
   const handleNavigation = () => {
     if (isAdmin) {
@@ -136,7 +138,7 @@ const PropertyCard = ({
               {title}
             </h3>
             <h4 className="font-semibold text-base text-muted-foreground line-clamp-1">
-              Price: ₹ {price}
+              Price: ₹ {priceString}
             </h4>
             <div className="flex w-full justify-between items-center gap-2">
               <p

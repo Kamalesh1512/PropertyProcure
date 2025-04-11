@@ -31,3 +31,32 @@ export const timeAgo = (timestamp: Date) => {
   }
   return 'just now'
 };
+
+
+export function formatPriceToString(price: number): string {
+  if (price >= 10000000) {
+    return `${(price / 10000000).toFixed(2).replace(/\.00$/, '')}Cr`;
+  } else if (price >= 100000) {
+    return `${(price / 100000).toFixed(2).replace(/\.00$/, '')}L`;
+  } else {
+    return price.toLocaleString('en-IN'); // fallback, like 95000
+  }
+}
+
+export function parsePriceToNumber(priceStr: string): number {
+  const trimmed = priceStr.trim().toUpperCase();
+
+  if (trimmed.endsWith('CR')) {
+    const value = parseFloat(trimmed.replace('CR', ''));
+    return value * 10000000; // 1 Cr = 1 crore = 1,00,00,000
+  }
+
+  if (trimmed.endsWith('L')) {
+    const value = parseFloat(trimmed.replace('L', ''));
+    return value * 100000; // 1 Lakh = 1,00,000
+  }
+
+  // fallback to number if already in digits
+  const value = parseFloat(trimmed.replace(/[^0-9.]/g, ''));
+  return isNaN(value) ? 0 : value;
+}

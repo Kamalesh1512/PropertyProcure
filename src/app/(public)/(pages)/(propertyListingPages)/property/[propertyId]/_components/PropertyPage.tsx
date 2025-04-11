@@ -27,6 +27,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import PropertyImagesDisplay from "./PropertyImagesDisplay";
+import { parsePriceToNumber,formatPriceToString } from "@/lib/utils";
 
 type PropertyType = InferSelectModel<typeof properties>;
 
@@ -101,6 +102,11 @@ const PropertyPage = ({
     return num.toLocaleString();
   };
 
+  const priceString = formatPriceToString(propertyData?.price)
+
+  console.log("price in string",priceString)
+
+
   return (
     <motion.div
       initial="hidden"
@@ -155,7 +161,7 @@ const PropertyPage = ({
           <div className="bg-primary/10 px-6 py-3 rounded-lg">
             <p className="text-sm text-muted-foreground">Price</p>
             <p className="text-3xl font-bold text-primary">
-              ₹{propertyData?.price.toLocaleString()}
+              ₹{priceString}
             </p>
           </div>
         </motion.div>
