@@ -1,7 +1,8 @@
-import { useParams } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import React from "react";
 import { getPropertiesImages, getPropertyById } from "@/actions/properties";
 import AdminPropertyPage from "./_components/AdminPropertyPage";
+import { checkRole } from "@/utils/roles";
 
 
 interface propertyPageProps {
@@ -18,10 +19,15 @@ const page = async ({ params }: propertyPageProps) => {
 
   const property = propertyResult?.data || [];
   const images = imageResult?.data || [];
+  const isAdmin = await checkRole('admin')
+
+  if (!isAdmin) {
+    redirect("/")
+  }
 
   return (
     <div>
-      <AdminPropertyPage property={property} imageUrls={images}/>
+      <AdminPropertyPage property={property} imageUrls={images} isAdmin ={isAdmin}/>
     </div>
   );
 };

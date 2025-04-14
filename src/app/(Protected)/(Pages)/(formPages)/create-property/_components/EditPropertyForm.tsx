@@ -46,7 +46,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import ImageUpload from "./ImageUpload";
 import { InferSelectModel } from "drizzle-orm";
 import { properties } from "@/db/schema";
-import { formatPriceToString } from "@/lib/utils";
+import { formatPriceToString, parsePriceToNumber } from "@/lib/utils";
 
 // Enhanced property schema with conditional fields
 const propertySchema = z.object({
@@ -162,10 +162,12 @@ export default function EditPropertyForm({
 
   const onSubmit = async (data: PropertyFormData) => {
     setIsLoading(true);
-    const payload = { ...data, images };
+
+    const payload = { ...data,images };
     console.log("Submitting:", payload);
 
     try {
+
       const response = await editProperty(property[0]?.id, data, images);
 
       if (response.status === 200) {
@@ -242,13 +244,8 @@ export default function EditPropertyForm({
                       <FormLabel>Price (₹)</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Enter price"
+                          placeholder="Enter price with suffix ('CR','L')"
                           {...field}
-                          onChange={(e) =>
-                            field.onChange(
-                              e.target.value ? Number(e.target.value) : 0
-                            )
-                          }
                         />
                       </FormControl>
                       <FormMessage />

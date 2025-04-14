@@ -11,8 +11,23 @@ import {
   updatePropertyImages,
 } from "@/db/queries";
 import { onAuthenticateAdmin } from "./admin";
+import { parsePriceToNumber } from "@/lib/utils";
 import { PropertyFormData } from "@/app/(Protected)/(Pages)/(formPages)/create-property/_components/PropertyForm";
 
+type PropertyData = {
+  title: string;
+  price: number;
+  address: string;
+  city: string;
+  state: string;
+  country: string;
+  areaSqFt: string;
+  propertyType: "Argicultural Land" | "Plantations" | "Residential Plots" | "Commercial";
+  propertyDetails: string;
+  brokerId: string;
+  description?: string | undefined;
+  zipCode?: string | undefined;
+}
 export const getAllProperties = async (
   name: string,
   city: string,
@@ -89,6 +104,7 @@ export const createProperty = async (
     if (checkUser.status !== 200 || !checkUser.user) {
       return { status: 403, error: "⚠️ User Not Authenticated" };
     }
+
     const updatedProperty = await addProperty(data, images);
 
     if (!updatedProperty) {
@@ -161,7 +177,12 @@ export const editProperty = async (
   images: string[]
 ) => {
   try {
-    const property = await updateProperty(propertyId, data);
+    const updatedData = {
+      ...data,
+      price: parsePriceToNumber(data.price),
+    };
+
+    const property = await updateProperty(propertyId, updatedData);
 
     if (!property || property.rowCount == 0) {
       return { status: 400, message: "Failed to update property", data: [] };
